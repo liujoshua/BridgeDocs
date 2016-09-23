@@ -1,0 +1,66 @@
+html {
+    font-size: 14px;
+}
+header, section, footer {
+    width: 100%;
+}
+header {
+    /*height: 160px;*/
+    height: 12rem;
+}
+    header .bg-color {
+        z-index: -1;
+        width: 100%;
+        /*height: 145px;*/
+        height: 10.4rem;
+        background-color: #1d73a4;
+    }
+    header a {
+        position: absolute;
+        left: 0; top: 0; bottom: 0; right: 0;
+        width: 100%;
+        /*height: 179px;*/
+        height: 12.8rem;
+        background: transparent url('/css/banner4.png') top right no-repeat;
+        background-size: contain;
+    }
+    header h1, header h3 {
+        color: white;
+        max-width: 52rem;
+        margin: 0 auto;
+        letter-spacing: 2px;
+        overflow: wrap;
+        text-shadow: 1px 1px 1px rgb(17,89,114);
+        font-family: Roboto, sans-serif;
+    }
+    header h1 {
+        padding: 2.5rem 1rem .5rem 1rem;
+    }
+    header h3 {
+        padding: .75rem 12rem 1rem 1rem;
+        font-weight: normal;
+    }
+section {
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+    max-width: 60rem;
+    margin: 0 auto;
+}
+    nav, main {
+        padding: 1rem;
+    }
+    main {
+        flex-shrink: 18;
+        padding-top: 1.5rem;
+        padding-bottom: 5rem;
+    }
+    main img {
+        padding: 1rem;
+        max-width: 100%;
+    }
+footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 1rem;
+    text-align: center;
+}

@@ -1,0 +1,21 @@
+<html lang="en">
+{% include head.html %}
+<body>
+    {% include header.html %}
+    <section>
+        <nav>
+            <div class="ui vertical menu">
+                <div class="item">
+                    <a href="/">Home</a>
+                </div>
+                {% include navigation.html %}
+            </div>
+        </nav>
+        <main>
+            <h3>{{page.title}}</h3>
+            {{content}}
+        </main>
+    </section>
+    {% include footer.html %}
+</body>
+</html>
