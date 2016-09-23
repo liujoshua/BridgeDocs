@@ -8,4 +8,16 @@ script:
 branches:
   only:
     - release
-after_success: bundle exec s3_website push
+deploy:
+    - provider: s3
+      access_key_id: ${AWS_KEY}
+      secret_access_key: ${AWS_SECRET_KEY}
+      bucket: "developer.sagebridge.org"
+      skip_cleanup: true
+      acl: public_read
+      detect_encoding: false
+      endpoint: developer.sagebridge.org.s3-website-us-east-1.amazonaws.com
+      region: "us-east-1"
+      local_dir: _site
+      on:
+          branch: release    
