@@ -1,4 +1,4 @@
-// Activate the current navigtion link
+// Activate the current navigation link
 var items = document.querySelectorAll(".ui.vertical.menu .item a");
 for (var i=0; i < items.length; i++) {
     var href = items[i].getAttribute('href');
