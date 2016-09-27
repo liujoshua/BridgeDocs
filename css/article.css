@@ -65,3 +65,13 @@ p, li {
     pre {
         padding: .5rem;
     }
+
+@media print {
+    nav, header {
+        display:none;
+    }
+    .table-wrapper, pre {
+        max-width: none;
+        outline: none;        
+    }
+}
