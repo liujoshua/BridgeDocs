@@ -1,7 +1,7 @@
 title: Bridge Developer Portal
 email: bridgeit@sagebase.org
 description: Developer portal the Bridge mobile health research platform
-markdown: kramdown
+markdown: redcarpet
 collections:
   articles:
     output: true
