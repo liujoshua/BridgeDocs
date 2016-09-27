@@ -56,8 +56,12 @@ p, li {
     line-height: 1.8;
     font-size: 16px;
 }
-.table-wrapper {
+.table-wrapper, pre {
     margin: 1rem 0;
     max-width: 40rem;
-    overflow-x: scroll;
+    overflow-x: auto;
+    outline: 1px solid #e5e5e5;
 }
+    pre {
+        padding: .5rem;
+    }

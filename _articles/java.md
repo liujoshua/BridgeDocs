@@ -9,21 +9,22 @@ We currently have a REST API SDK in Java to support Android application developm
 
 Add the Sage Bionetworks repository and the SDK to your <code>pom.xml</code>:
 
-    <dependencies>
-        <dependency>
-            <groupId>org.sagebionetworks.bridge</groupId>
-            <artifactId>java-sdk</artifactId>
-            <version>{{site.data.versions.java_sdk}}</version>
-        </dependency>
-    </dependencies>
-    ...
-    <repositories>
-        <repository>
-            <id>sagebionetworks-releases-local</id>
-            <url>http://sagebionetworks.artifactoryonline.
-                com/sagebionetworks/libs-releases-local</url>
-        </repository>
-    </repositories>
+``` xml
+<dependencies>
+    <dependency>
+        <groupId>org.sagebionetworks.bridge</groupId>
+        <artifactId>java-sdk</artifactId>
+        <version>{{site.data.versions.java_sdk}}</version>
+    </dependency>
+</dependencies>
+...
+<repositories>
+    <repository>
+        <id>sagebionetworks-releases-local</id>
+        <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-releases-local</url>
+    </repository>
+</repositories>
+```
 
 If you don't have an account to start, you can create one (if you do not have a study, you will have to contact Sage Bionetworks to create one):
 
@@ -79,18 +80,12 @@ Once you have created an account and signed in, you can use the session to get a
 // retrieving activities
 UserClient client = session.getUserClient();
 
-// Client for developing a study or mobile application
-DeveloperClient client = session.getDeveloperClient();
-
-// Client for researchers who have access to participant information 
-// but cannot edit studies
-DeveloperClient client = session.getResearcherClient();
-
-// Client for Bridge administrators 
-AdminClient client = session.getAdminClient();
+// There are many other clients for administration of a study:
+UploadSchemaClient schemaClient = session.getUploadSchemaClient();
+ParticipantClient participantClient = session.getParticipantClient();
 ```
 
-Each of these clients is documented in this API documentation. 
+Each of these clients is documented in the API documentation. 
   
 Finally you may wish to sign out when you are done:
 
