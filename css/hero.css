@@ -45,9 +45,13 @@ i.heartbeat-logo {
 .hero-buttons button:not(:last-child) {
     margin-right: 3rem;
 }
+.android-button {
+    background-color: rgb(106, 179, 68)!important;
+    color: white!important;
+}
 .rest-button {
-    background-color: rebeccapurple; 
-    color: white;            
+    background-color: rebeccapurple!important;
+    color: white!important;
 }
 section.hero {
     font-size: 1.4rem;
