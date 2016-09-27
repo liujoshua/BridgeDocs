@@ -1,13 +1,12 @@
 <html lang="en">
 {% include head.html %}
 <body>
-    {% include header.html %}
-    <section>
+    <header>
+        {% include tabs.html %}    
+    </header>
+    <section class="article">
         <nav>
             <div class="ui vertical menu">
-                <div class="item">
-                    <a href="/">Home</a>
-                </div>
                 {% include navigation.html %}
             </div>
         </nav>
