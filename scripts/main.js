@@ -3,7 +3,7 @@ var items = document.body.querySelectorAll("a");
 for (var i=0; i < items.length; i++) {
     var item = items[i];
     var href = item.getAttribute('data-filepath') || item.getAttribute('href');
-    if (/http[s]?\:/.test(href)) {
+    if (/http[s]?\:/.test(href) && !item.hasAttribute('no-ext')) {
         var icon = document.createElement("i");
         icon.className = "ui small external icon";
         icon.textContent = " ";
