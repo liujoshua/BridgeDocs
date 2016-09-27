@@ -9,7 +9,7 @@ In accordance with the Risk Assessments undertaken by Sage Bionetworks and exter
 * Only individuals who directly report to the Director of Technology Services (Michael Kellen) may be granted administrative access to Bridge Server, or any of the technology services it depends on (AWS, Stormpath, Heroku). Access will be terminated promptly when an individual leaves this team. Currently, this group includes:
   * Alx Dark (Bridge Server Engineer)
   * Dwayne Jeng (Bridge Server Engineer)
-  * Xavier Schidwachter (Sage Principle System Administrator)
+  * Xavier Schildwachter (Sage Principle System Administrator)
   * Shannon Young (Bridge Server Engineer)
 
 * All engineers with IAM access to the Bridge AWS account will enable 2 factor authentication on their accounts.
