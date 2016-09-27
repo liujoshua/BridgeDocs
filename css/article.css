@@ -1,0 +1,45 @@
+html {
+    font-size: 14px;
+}
+header, section, footer {
+    max-width: 60rem;
+    margin: 0 auto;
+}
+/*
+header {
+    background-color: rgba(102,51,153,.1);
+}
+*/
+section.article {
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+    max-width: 60rem;
+    margin: 0 auto;
+}
+h3 {
+    font-family: 'Dosis', 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: 300;
+    font-size: 1.75rem;
+    color: rgba(0,0,0,0.5);
+}
+    nav, main {
+        padding: 1rem;
+    }
+    nav {
+        margin-top: 1rem;
+    }
+    main {
+        flex-shrink: 18;
+        padding-top: 1.5rem;
+        padding-bottom: 5rem;
+    }
+    main img {
+        padding: 1rem;
+        max-width: 100%;
+    }
+footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 1rem;
+    text-align: center;
+}
