@@ -1,57 +1,66 @@
+.item.header {
+    /* Navigation to home screen, hidden on hero page. */
+    display: none!important;
+}
 .content {
     max-width: 60rem;
     margin: 0 auto;
 }
-h1 {
-    font-family: 'Dosis', 'Helvetica Neue', Arial, sans-serif !important;
-    font-weight: 300;
-    font-size: 4em;
-    margin: 0 auto!important;
-    margin-top: -3.5rem!important;
-}
-h3 {
-    font-family: 'Dosis', 'Helvetica Neue', Arial, sans-serif !important;
-    font-weight: 300;
-    font-size: 1.75rem;
-    color: rgba(0,0,0,0.5);
-    margin: 0 auto!important;
-    padding-top: 2rem;
+.masthead {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 i.mobile-logo {
     position: relative;
     color: rgba(102,51,153,.2);
     font-size: 26rem;
+    max-width: 26rem;
+    height: 26rem;
     line-height: 26rem;
 }
 i.heartbeat-logo {
-    position: absolute; 
+    position: absolute;
     color: rebeccapurple;
-    left: 11.9rem;
+    width: 100%;
+    height: 100%;
+    line-height: 26rem;
+    top: 0;
+    left: 0;
     font-size: 6rem;
-}
-.ui.large.button {
-    width: 13rem;
-}
-.ui.large.button .small {
-    font-size: x-small;
 }
 .hero-masthead {
     text-align: center;
+    padding: 0 1rem;
 }
-.hero-buttons {
-    margin-top: 3rem
-}
-.hero-buttons button:not(:last-child) {
-    margin-right: 3rem;
-}
-.android-button {
-    background-color: rgb(106, 179, 68)!important;
-    color: white!important;
-}
-.rest-button {
-    background-color: rebeccapurple!important;
-    color: white!important;
-}
+    h1 {
+        font-family: 'Dosis', 'Helvetica Neue', Arial, sans-serif !important;
+        font-weight: 300;
+        font-size: 4em;
+        margin: 0 auto!important;
+    }
+    h3 {
+        font-family: 'Dosis', 'Helvetica Neue', Arial, sans-serif !important;
+        font-weight: 300;
+        font-size: 1.75rem;
+        color: rgba(0,0,0,0.5);
+        margin: 2rem auto 3rem!important;
+    }
+    .hero-buttons {
+        margin: 3rem auto 2rem;
+    }
+    .hero-buttons a:not(:last-child) {
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+    }
+        .android-button {
+            background-color: rgb(106, 179, 68)!important;
+            color: white!important;
+        }
+        .rest-button {
+            background-color: rebeccapurple!important;
+            color: white!important;
+        }    
 section.hero {
     font-size: 1.4rem;
     margin-top: 4em;
@@ -60,7 +69,4 @@ section.hero {
 footer {
     border-top: 1px solid #ccc;
     padding: .25rem 3rem 4rem .25rem;
-}
-.item.header {
-    display: none!important;
-}
+}    

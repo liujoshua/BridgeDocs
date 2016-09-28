@@ -4,17 +4,21 @@
     <header>
         {% include tabs.html %}    
     </header>
-    <section class="article">
-        <nav>
-            <div class="ui vertical menu">
-                {% include navigation.html %}
-            </div>
-        </nav>
-        <main>
-            <h1>{{page.title}}</h1>
-            {{content}}
-        </main>
-    </section>
+    <div class="article ui stackable two column grid">
+        <div class="five wide column">
+            <nav>
+                <div class="ui stackable vertical menu">
+                    {% include navigation.html %}
+                </div>
+            </nav>
+        </div>
+        <div class="eleven wide column">
+            <main>
+                <h1>{{page.title}}</h1>
+                {{content}}
+            </main>
+        </div>
+    </div>
     {% include footer.html %}
 </body>
 </html>
