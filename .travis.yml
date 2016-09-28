@@ -1,10 +1,14 @@
 language: ruby
 rvm:
   - 2.2.0
+node_js:
+  - 6.6.0
 install:
   - bundle install
 script:
   - bundle exec jekyll build
+  - npm install swagger-cli
+  - ./node_modules/.bin/swagger bundle bridge-api/index.yml > bridge.json
 branches:
   only:
     - release
