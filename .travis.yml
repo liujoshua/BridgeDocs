@@ -8,7 +8,7 @@ install:
 script:
   - bundle exec jekyll build
   - npm install swagger-cli
-  - ./node_modules/.bin/swagger bundle bridge-api/index.yml > bridge.json
+  - ./node_modules/.bin/swagger bundle bridge-api/index.yml -o bridge.json
 branches:
   only:
     - release
