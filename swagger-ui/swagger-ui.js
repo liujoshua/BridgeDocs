@@ -7595,6 +7595,13 @@ Operation.prototype.asCurl = function (args1, args2) {
   var obj = this.execute(args1, opts);
 
   this.clientAuthorizations.apply(obj, this.operation.security);
+  // ALDARK: Added to fix a bug in swagger-ui where our header doesn't get included 
+  // in the CURL command
+  if ((this.authorizations || []).indexOf("BridgeSecurity") > -1) {
+    var a = this.clientAuthorizations.authz.BridgeSecurity;
+    obj.headers = obj.headers || {};
+    obj.headers[a.name] = a.value;
+  }
 
   var results = [];
 
