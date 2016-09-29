@@ -6,9 +6,9 @@ node_js:
 install:
   - bundle install
 script:
-  - bundle exec jekyll build
   - npm install swagger-cli
-  - ./node_modules/.bin/swagger bundle bridge-api/index.yml -o bridge.json
+  - ./node_modules/.bin/swagger bundle bridge-api/index.yml -f -o bridge.json
+  - bundle exec jekyll build
 branches:
   only:
     - release
