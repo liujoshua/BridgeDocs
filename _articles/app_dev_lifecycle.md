@@ -75,7 +75,7 @@ In some cases partners wish to register users without an email address. In these
 
 If this describes your study design, it's important to know how Bridge supports this set-up with a public API.
 
-External IDs are first imported into the system. When a study is configured to manage these IDs, Bridge will not allow an account to be created without one, now will it allow a code to be used more than once. Bridge exports the external ID to Synapse as part of every record collected. This allows you to identify which participant submitted the data (only you have the mapping between the external ID and the participant it represents).
+External IDs are first imported into the system. When a study is configured to manage these IDs, Bridge will not allow an account to be created without one, nor will it allow a code to be used more than once. Bridge exports the external ID to Synapse as part of every record collected. This allows you to identify which participant submitted the data (only you have the mapping between the external ID and the participant it represents).
 
 We then create a set of credentials (a fake email address and password) using this code so your application can authenticate with the Bridge server. Bridge uses the following pattern: if you enter the code ASDF, the server uses your support email address to create an email address (support+ASDF@yourorganization.com) and the password is the code (ASDF). (The support email address is configurable through the API as well as the Bridge Study Manager; although Bridge uses your support email address, it will not send documents to that address). When a code is entered into the app, it uses these credentials to authenticate with the server.
 
