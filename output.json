@@ -1,0 +1,663 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "20160928",
+    "title": "Bridge Server API"
+  },
+  "host": "webservices.sagebridge.org",
+  "basePath": "/",
+  "securityDefinitions": {
+    "BridgeSecurity": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Bridge-Session"
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v3/auth/signIn": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Send user credentials to authenticate with the Bridge server. Whether the server returns \n200 (user successfully authenticated) or 412 (user has authenticated but has not yet \nconsented to participate in research), the response will contain a user session. \n\nThe session contains the \"sessionToken\" property with the token that must be used to interact \nwith other endpoints of the service. That value should be sent via the request header \n\"Bridge-Session\" to any endpoint requiring authentication. The Bridge session token is \ncurrently valid for 12 hours. However, your client application should be prepared to \nre-authenticate on any call if it returns 401 (\"Not authenticated\"), as the session may \nexpire before this period for unforeseen reasons, like a server failure.\n\nIf the user has not yet consented, the session also contains detailed information about the \nconsent (or consents) the user must submit a signature for, before they will be allowed to \nmake further calls to Bridge. You can also implement logic to re-consent to updated consents, \nif desired.\n",
+        "parameters": [
+          {
+            "name": "SignIn",
+            "in": "body",
+            "description": "Sign in information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignIn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful sign in",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
+          },
+          "404": {
+            "description": "Credentials incorrect or the user does not exist",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "412": {
+            "description": "User has signed in, but is not consented",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
+          },
+          "423": {
+            "description": "Account has been disabled",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/signOut": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "description": "Delete the user's session on the server.\n",
+        "parameters": [
+          {
+            "name": "Empty",
+            "in": "body",
+            "description": "Empty JSON body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/requestResetPassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Does not require authentication. Will send an email with a link that contains the session \ntoken necessary to reset the password (cannot be done through the API alone). If the user \naccount does not exist, this method will still return 200 in order to prevent \"account \nenumeration\" security breaches.\n",
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "body",
+            "description": "Email information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If registered with the study, we'll email you instructions on how to change your password.",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/resetPassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "This API will not normally be called directly by a client. A user will receive an email \ntriggered by the /requestResetPassword call, with an URL to open up a password reset page \non the Bridge server. That page submits the new password along with a one-time session \ntoken (\"sptoken\") to this endpoint, in order to change the password. The template for the \nemail that is sent can be configured as part of a Study through the management APIs. If \nthe token is not provided or is expired, this request will fail. If the user account does not \nexist, this method will still return 200 in order to prevent \"account enumeration\" security \nbreaches.\n",
+        "parameters": [
+          {
+            "name": "PasswordReset",
+            "in": "body",
+            "description": "Password reset token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordReset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password has been changed.",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "400": {
+            "description": "The new password does not meet the password requirements of the study.",
+            "schema": {
+              "$ref": "#/definitions/InvalidEntityException"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/signUp": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Depending on the configuration of the study, the user will normally be sent an email with a link \nto verify his or her email address before the account will be activated. If the user account \ndoes not exist, this method will still return 200 in order to prevent \"account enumeration\" \nsecurity breaches.\n\nOnly basic credentials are necessary to sign up (email, password and study), but all the \ninformation that can be provided for a participant's account can be submitted as part of sign up.\n",
+        "parameters": [
+          {
+            "name": "SignUp",
+            "in": "body",
+            "description": "Sign up information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Signed up.",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/verifyEmail": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "This API will not normally be called directly by a client. A user will receive an email \ntriggered by the /signUp call, with an URL to open up a page that verifies the email was \nreceived at the provided email address. This page is on the Bridge server. That page submits \na one-time session token (\"sptoken\") to this endpoint, in order to change the password. The \ntemplate for this verification email can be configured as part of a Study through the management \nAPIs.\n",
+        "parameters": [
+          {
+            "name": "EmailVerification",
+            "in": "body",
+            "description": "Email verification token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmailVerification"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email address verified.",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/resendEmailVerification": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Resend an email to the provided email address asking the address holder to verify their \naddress. Whether the email address has been registered or not through sign up, this method\nwill return 200 in order to prevent \"account enumeration\" security breaches.\n",
+        "parameters": [
+          {
+            "name": "EmailVerification",
+            "in": "body",
+            "description": "Email address of participant",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If registered with the study, we'll email you instructions on how to verify your account.",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/activities": {
+      "get": {
+        "tags": [
+          "Activities",
+          "Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "description": "Gets all available, started, or scheduled activities for a user. Once an activity is \nfinished, or expires (the time has passed for it to be started), it will be removed \nfrom the list of activities returned to the user.\n",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The user's time zone offset (e.g. +07:00). Scheduled activities will be \nreturned in the timezone submitted at the time of the request. \n",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "daysAhead",
+            "in": "query",
+            "required": true,
+            "description": "Retrieve activities that are scheduled in the future for the indicated number \nof days past today.\n",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          },
+          {
+            "name": "minimumPerSchedule",
+            "in": "query",
+            "description": "Force a look-ahead on repeating activities until at least the indicated number \nof activities are scheduled (this is applied to the each schedule in the system \nthat applies to this user). The system will then return either the activities \nfor N days, or the minimum number of activities, whichever is the greatest in \nnumber. This setting can help to expose infrequent tasks (weekly, monthly, \netc.) to users.\n",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ScheduledActivity"
+              }
+            }
+          },
+          "412": {
+            "description": "User has signed in, but is not consented",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Activities",
+          "Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "description": "Submit one or more scheduled activities with updated startedOn or finishedOn timestamps. The \nonly values needed in the JSON for each activity are the guid, startedOn and finishedOn fields.\n",
+        "parameters": [
+          {
+            "name": "ScheduledActivity",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ScheduledActivity"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AbstractStudyParticipant": {
+      "title": "AbstractStudyParticipant",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "notifyByEmail": {
+          "type": "boolean"
+        },
+        "attributes": {
+          "type": "object"
+        },
+        "sharingScope": {
+          "type": "string",
+          "enum": [
+            "no_sharing",
+            "sponsors_and_partners",
+            "all_qualified_researchers"
+          ]
+        },
+        "createdOn": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "disabled",
+            "enabled",
+            "unverified"
+          ]
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "developer",
+              "researcher",
+              "admin",
+              "worker"
+            ]
+          }
+        },
+        "dataGroups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Email": {
+      "title": "Email",
+      "type": "object",
+      "required": [
+        "name",
+        "studyIdentifier"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "studyIdentifier": {
+          "type": "string"
+        }
+      }
+    },
+    "EmailVerification": {
+      "title": "Email Verification",
+      "type": "object",
+      "required": [
+        "sptoken"
+      ],
+      "properties": {
+        "sptoken": {
+          "type": "string"
+        }
+      }
+    },
+    "Empty": {
+      "title": "Empty",
+      "type": "object"
+    },
+    "Message": {
+      "title": "Message",
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "PasswordReset": {
+      "title": "Password Reset",
+      "type": "object",
+      "required": [
+        "password",
+        "sptoken"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "New password to use"
+        },
+        "sptoken": {
+          "type": "string",
+          "description": "This is a one-time use token issued to the user to change his or her password. \nNormally this is emailed to the user's email account, using a link back to the \nBridge web interface where it is extracted to complete this API call.\n"
+        }
+      }
+    },
+    "ScheduledActivity": {
+      "title": "Scheduled Activity",
+      "description": "Description of an activity (such as a task or survey) the study would like the participant to perform.\n",
+      "type": "object",
+      "required": [
+        "guid",
+        "schedulePlanGuid",
+        "activity",
+        "persistent",
+        "status",
+        "type"
+      ],
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "schedulePlanGuid": {
+          "type": "string"
+        },
+        "startedOn": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishedOn": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "activity": {
+          "type": "string"
+        },
+        "persistent": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "description": "The activities returned from this endpoint will be scheduled (will happen in the future); \navailable (user can do the activity now); or started (the client has updated the activity to \nindicate it has been started). Deleted and finished activities are not returned from this \nendpoint.\n",
+          "enum": [
+            "deleted",
+            "finished",
+            "started",
+            "expired",
+            "scheduled",
+            "available"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "ScheduledActivity"
+          ]
+        }
+      }
+    },
+    "SignIn": {
+      "title": "Sign In",
+      "type": "object",
+      "required": [
+        "study",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "study": {
+          "type": "string",
+          "description": "Study identifier of the participant's study"
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address"
+        },
+        "password": {
+          "type": "string",
+          "description": "User's password"
+        }
+      }
+    },
+    "SignUp": {
+      "title": "Sign Up",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AbstractStudyParticipant"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "required": [
+            "study",
+            "email",
+            "password"
+          ]
+        },
+        {
+          "properties": {
+            "study": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "UserSessionInfo": {
+      "title": "User Session Info",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AbstractStudyParticipant"
+        },
+        {
+          "description": "Information about the user and their session.\n"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "required": [
+            "email",
+            "id",
+            "sessionToken",
+            "dataSharing",
+            "notifyByEmail",
+            "attributes",
+            "sharingScope",
+            "createdOn",
+            "environment",
+            "status",
+            "consented",
+            "authenticated",
+            "signedMostRecentConsent",
+            "roles",
+            "dataGroups",
+            "languages",
+            "consentStatuses"
+          ]
+        },
+        {
+          "properties": {
+            "authenticated": {
+              "type": "boolean"
+            },
+            "sessionToken": {
+              "type": "string"
+            },
+            "environment": {
+              "type": "string"
+            },
+            "dataSharing": {
+              "type": "string",
+              "enum": [
+                "no_sharing",
+                "sponsors_and_partners",
+                "all_qualified_researchers"
+              ]
+            },
+            "signedMostRecentConsent": {
+              "type": "boolean"
+            },
+            "consented": {
+              "type": "boolean"
+            },
+            "consentStatuses": {
+              "type": "object",
+              "additionalProperties": "$ref ./consent_status.yml"
+            }
+          }
+        }
+      ]
+    },
+    "InvalidEntityException": {
+      "type": "object",
+      "required": [
+        "statusCode",
+        "errors",
+        "entityClass",
+        "entity"
+      ],
+      "properties": {
+        "statusCode": {
+          "type": "integer"
+        },
+        "errors": {
+          "type": "string"
+        },
+        "entityClass": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
