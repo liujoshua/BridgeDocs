@@ -33,7 +33,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "/bridge.json";
+        url = "/swagger.json";
       }
 
       hljs.configure({
@@ -60,6 +60,8 @@
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
+        apisSorter: "alpha",
+        sorter: "alpha",
         docExpansion: "none",
         jsonEditor: false,
         defaultModelRendering: 'schema',
