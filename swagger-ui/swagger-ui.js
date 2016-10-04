@@ -20694,10 +20694,10 @@ Request.prototype.attach = function(field, file, filename){
 };
 
 Request.prototype._getFormData = function(){
-  if (!this._formData) {
-    this._formData = new root.FormData();
+  if (!this._FormData) {
+    this._FormData = new root.FormData();
   }
-  return this._formData;
+  return this._FormData;
 };
 
 /**
@@ -20773,7 +20773,7 @@ Request.prototype.end = function(fn){
   var self = this;
   var xhr = this.xhr = request.getXHR();
   var timeout = this._timeout;
-  var data = this._formData || this._data;
+  var data = this._FormData || this._data;
 
   // store callback
   this._callback = fn || noop;
