@@ -3,11 +3,13 @@
     "search.exclude": {
         "**/_site": true,
         "**/node_modules": true,
-        ".vscode/**": true
+        ".vscode/**": true,
+        "java/**": true
     },
     "files.exclude": {
         "**/_site": true,
         "**/node_modules": true,
-        ".vscode/**": true
+        ".vscode/**": true,
+        "java/**": true
     }
 }

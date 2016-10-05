@@ -1,8 +1,9 @@
 node_modules
 .bundle
-_site/*
+_site
 *~
 .DS_Store
 .idea
 /*.json
 .vscode
+java
