@@ -48,10 +48,10 @@ p, li {
     margin: 1rem 0;
     max-width: 40rem;
     overflow-x: auto;
-    outline: 1px solid #e5e5e5;
 }
     pre {
         padding: .5rem;
+        outline: 1px solid #e5e5e5;
     }
 
 @media print {
