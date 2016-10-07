@@ -1,6 +1,7 @@
 ---
-title: Study Design
+title: Building Your Study
 layout: article
+study_design: true
 ---
 
 The Bridge server has a model for customizing the schedules, consents, and other information items that are returned from the server, based upon the individual participant. There are some specific criteria that can be used to filter server responses:

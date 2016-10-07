@@ -2,7 +2,7 @@ html {
     font-size: 14px;
 }
 header, section, footer {
-    max-width: 60rem;
+    max-width: 70rem;
     margin: 0 auto;
 }
 header {
@@ -12,7 +12,7 @@ header {
     width: 100%!important;
 }
 .article {
-    max-width: 60rem!important;
+    max-width: 70rem!important;
     margin: 0 auto!important;
     padding-bottom: 4rem!important;
 }
@@ -40,14 +40,17 @@ footer {
     padding: 1rem;
     text-align: center;
 }
-p, li {
+p, li, dd, dt {
     line-height: 1.8;
     font-size: 16px;
 }
 .table-wrapper, pre {
     margin: 1rem 0;
-    max-width: 40rem;
+    max-width: 50rem;
     overflow-x: auto;
+}
+.table-wrapper td, .table-wrapper th {
+    vertical-align: top;
 }
     pre {
         padding: .5rem;

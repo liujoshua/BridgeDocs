@@ -1,6 +1,7 @@
 ---
 title: Support for the app development lifecycle
 layout: article
+study_design: true
 ---
 
 After your first release, you will want to test changes while maintaining your production configuration. **The key to doing this is to use application version filtering to restrict new consents and schedules to the next version release of your application.** Consent groups/subpopulations allow you to restrict the application of the consent to your next application release. And schedules include a type of schedule, the criteria-based schedule plan, that can also be used to restrict new tasks to your next application release. This will prevent current users from seeing tasks, surveys, and new consent requirements until that version of the application is released to production. 
