@@ -1,85 +1,302 @@
-fetch('./swagger.json').then(function(response) {
-    response.json().then(function(swagger) {
-        init(swagger);
-        loadModel();
-    });
-});
-
-// 1. resolve the whole model first
-// 2. then render.
-
 var COMMENT_PARSER = /\/\*!?(?:\@preserve)?[ \t]*(?:\r\n|\n)([\s\S]*?)(?:\r\n|\n)[ \t]*\*\//;
-var FORMAT_PARSER = /\{[^\|}]+\}/g;
-var TYPE_LABELS = {
-    'boolean': function(prop) { return 'Boolean' },
-    'string': function(prop) { return 'String' },
-    'date-time': function(prop) { return 'ISO 8601 date & time string' },
-    'date': function(prop) { return 'ISO 8601 date string' },
-    'integer': function(prop) { return 'Integer' },
-    'array': function(prop) {
-        if (TYPE_LABELS[prop.items.type]) {
-            return 'Array&lt;'+TYPE_LABELS[prop.items.type](prop.items)+'&gt;'
-        }
-        return 'Array';
-    },
-    'object': function(prop) {
-        return 'Object';
-    }
-}
 function multiline(fn) {
 	return COMMENT_PARSER.exec(fn.toString())[1];
 };
-function format(string, obj) {
-    return string.replace(FORMAT_PARSER, function(token){
-        var prop = token.substring(1, token.length-1);
-        return (typeof obj[prop] == "function") ? obj[prop]() : obj[prop];
+
+fetch('./swagger.json').then(function(response) {
+    response.json().then(function(swagger) {
+        window.definitions = processSwagger(swagger); 
+        init();
+        loadModel();
     });
-}
+});
+marked.setOptions({gfm: true, tables: true});
 
-var detailTemplate = multiline(function(){/*
-    <h1>{displayName}</h1>
-    <p>{description}</p>
-    <h4>Properties</h4>
-    {propList}
+var templateText = multiline(function() {/*
+    <h2>
+        Type: <span style='color:black'>{{{displayName}}}</span> 
+        {{#discriminator}}<i>&laquo;Abstract&raquo;</i>{{/discriminator}}
+        {{#if supertype}} <i>subtype of <a href="#{{supertype}}">{{supertype}}</a></i>{{/if}}
+    </h2>
+    {{#if showClassRelationships}}
+        <div class="ui message">
+            {{#if subclasses.length}}
+                <p class="subclass">
+                    To create a complete JSON payload, you will need to use one of these subtypes: 
+                    {{#subclasses}}
+                        <a href="{{link}}">{{name}}</a>
+                    {{/subclasses}}. 
+                </p>
+            {{/if}}
+            {{#if uses.length}}
+                <p class="subclass">Used in types: 
+                    {{#uses}}
+                        <a href="{{link}}">{{{displayName}}}</a>
+                    {{/uses}}
+                </p>
+            {{/if}}
+        </div>
+    {{/if}}
+    <p>{{{description}}}</p>
+    <h2>Properties</h2>
+    <dl>
+        {{#properties}}
+            <dt>
+                <b>{{name}}</b> : 
+                {{#if type.title}}
+                    <a href="{{type.link}}">{{type.title}}</a>
+                {{else}}
+                    {{type}}
+                {{/if}}
+            </dt>
+            <dd>
+                {{#if enum}}
+                    <div class="enumeration">
+                        {{#enum}}<code>{{.}}</code><br>{{/enum}}
+                    </div>
+                {{/if}}
+                {{{description}}}
+            </dd>
+        {{/properties}}
+    </dl>
 */});
-var propTemplate = multiline(function() {/*
-    <dt><b>{name}</b> : {type}</dt>
-    <dd>{enum}
-        {description}</dd>
-*/});
-
 var nameContainer = document.querySelector("#model_nav");
 var modelDetail = document.querySelector("#model_detail");
 var currentItem, definitions;
+var template = Handlebars.compile(templateText);
 
-function getModelFromRef($ref) {
+var getTypeLabel = function() {
+    var TYPE_LABELS = {
+        'boolean': 'Boolean',
+        'string': 'String',
+        'date-time': 'ISO 8601 date & time string',
+        'date': 'ISO 8601 date string',
+        'integer': 'Integer'
+    };
+    return function(key) {
+        var value = TYPE_LABELS[key];
+        // If there's no label we check that elsewhere. There are some cases where things
+        // are getting processed twice, where this would fail the second time.
+        return value;
+    }
+}
+
+function getDefinition(definitions, $ref) {
     return definitions[ $ref.split("/").pop() ];
 }
-function processDefinitions(swagger) {
-    Object.keys(swagger.definitions).forEach(function(modelName) {
-        var model = swagger.definitions[modelName];
-        model.displayName = modelName;
-        if (modelName.indexOf("_") > -1) {
-            model.displayName = modelName.split("_")[0]  + "&lt;" + modelName.split("_")[1] + "&gt;"
-        }
-        model.properties = model.properties || {};
-        model.allOf = model.allOf || []
-        model.description = model.description || "";
-        model.description = markdown.toHTML(model.description);
-        model.allOf.forEach(function(entry) {
-            if (entry.properties) {
-                for (var propName in entry.properties) {
-                    model.properties[propName] = entry.properties[propName];
-                }
-            }
-        });
+function processSwagger(swagger) {
+    var defKeys = Object.keys(swagger.definitions);
+    // pre-process definitions
+    defKeys.forEach(function(propName) {
+        var def = swagger.definitions[propName];
+        def.title = propName;
+        def.name = propName;
+        def.link = "#"+propName;
     });
-    definitions = swagger.definitions;
+    // Proces definitions
+    defKeys.forEach(function(propName) {
+        var def = swagger.definitions[propName];
+        processDefinition(swagger.definitions, propName, def);
+    });
+    // Post-process definitions, converting objects/sets into arrays for rendering 
+    defKeys.forEach(function(propName) {
+        var def = swagger.definitions[propName];
+        // Object.values(def.properties);
+        def.properties = Object.keys(def.properties).map(function(key) {
+            return def.properties[key];
+        });
+        // Deduplicate arrays. Sets are not widely enough supported for this.
+        if (def.uses) {
+            def.uses = def.uses.filter(function(item, pos, self) {
+                return self.indexOf(item) == pos;
+            });
+        }
+        transferUsesFromSuperToSubType(swagger.definitions, def, propName);
+        if (def.uses || def.subclasses) {
+            def.showClassRelationships = true;
+        }
+    });
+    // This is not describable as a super-type, because it doesn't have a discriminator 
+    // property to select a concreate subtype. It's just a mixin. I beleve anything
+    // with subclasses property and no discriminator can be deleted this way.
+    delete swagger.definitions.AbstractStudyParticipant;
+    return swagger.definitions;
 }
-
-function init(swagger) {
-    processDefinitions(swagger);
-    var modelNames = Object.keys(swagger.definitions);
+function transferUsesFromSuperToSubType(definitions, def, propName) {
+    if (def.supertype) {
+        var aSuper = definitions[def.supertype];
+        if (aSuper.uses) {
+            def.uses = (def.uses || []).concat( aSuper.uses );
+        }
+    }
+}
+function processDefinition(definitions, propName, def) {
+    def.displayName = displayName(def);
+    def.properties = def.properties || {};
+    def.required = def.required || [];
+    def.description = def.description || "";
+    if (def.allOf) {
+        processAllOf(definitions, def, def.allOf);
+        delete def.allOf;
+    }
+    Object.keys(def.properties).forEach(function(propName) {
+        processProperty(definitions, propName, def, def.properties[propName]);
+    });
+    /* This is no longer sufficient fo find subclasses; look for a top-level
+        $ref in an allOf: clause (there can be only one in our modeling)
+    if (typeof def.discriminator !== "undefined") {
+        def.subclasses = def.properties.type.enum.map(function(className) {
+            var subtype = definitions[className];
+            subtype.supertype = def.title;
+            return {name: className, link: className};
+        });
+        delete def.properties.type;
+    }
+    */
+    // This is just so the key appears last; iteration in browser I test is consisent
+    // with order of insertion.
+    if (def.properties.type) {
+        var type = def.properties.type;
+        delete def.properties.type;
+        def.properties.type = type;
+    }
+}
+function processProperty(definitions, propName, def, property) {
+    property.name = propName;
+    property.definition = property.definition || "";
+    for (propField in property) {
+        switch(propField) {
+            case 'enum':
+                enumToConstant(property); break;
+            case 'items':
+                relabelArray(definitions, propName, def, property); break;
+            case 'format':
+            case 'type':
+                relabelPropType(definitions, def, property); break;
+            case '$ref':
+                createSuperType(definitions, def, property); break;
+            case 'description':
+                property.description = marked(property.description); break;
+        }
+    }
+    if (property.enum) {
+        property.type = "Enumeration";
+    }
+    return property;
+}
+function enumToConstant(property) {
+    if (property.enum.length === 1) {
+        property.type = property.enum[0];
+        delete property.enum;
+    }
+}
+function relabelArray(definitions, propName, def, property) {
+    var itemsProp = property.items;
+    for (var itemsPropName in itemsProp) {
+        switch(itemsPropName) {
+            case '$ref':
+                var arrayType = getDefinition(definitions, itemsProp.$ref);
+                addUse(arrayType, def);
+                property.link = arrayType.link;
+                property.type = {
+                    title: arrayType.title + "[]",
+                    link: arrayType.link
+                };
+                break;
+            case 'type':
+                var label = getTypeLabel(itemsProp.type);
+                if (label) {
+                    property.type = label + "[]";
+                }
+                break;
+            case 'description':
+                property[itemsPropName] = marked(itemsProp[itemsPropName]); break;
+            default:
+                if (itemsProp[itemsPropName]){
+                    property[itemsPropName] = itemsProp[itemsPropName];
+                }
+        }
+    }
+    delete property.items;
+}
+function relabelPropType(definitions, def, property) {
+    if (property.type === "object") {
+        var ap = property.additionalProperties;
+        if (ap) {
+            if (ap.type) {
+                var label = getTypeLabel(ap.type);
+                property.type = "Map<String,"+label+">";
+            } else if (ap.$ref) {
+                var refType = getDefinition(definitions, ap.$ref);
+                addUse(refType, def);
+                property.type = {
+                    title: "Map<String,"+refType.title+">",
+                    link: refType.link
+                };
+            }
+        }
+    }
+    var label = getTypeLabel(property.format || property.type);
+    if (label) {
+        property.type = label;
+        delete property.format;
+    }
+}
+function addUse(parentDef, childDef) {
+    parentDef.uses = parentDef.uses || [];
+    parentDef.uses.push(childDef);
+}
+function createSuperType(definitions, def, property) {
+    var superType = getDefinition(definitions, property.$ref);
+    addUse(superType, def);
+    property.type = superType;
+    delete property.$ref;
+}
+function processAllOf(definitions, def, array) {
+    array.forEach(function(entryObj) {
+        if (entryObj instanceof Array) {
+            processAllOf(definitions, def, entryObj);
+        } else {
+            processAllOfEntry(definitions, def, entryObj);
+        }
+    });
+}
+function processAllOfEntry(definitions, def, entryObj) {
+    for (var propName in entryObj) {
+        switch(propName) {
+            case 'properties':
+                Object.assign(def.properties, entryObj.properties); break;
+            case '$ref':
+                var parentRef = getDefinition(definitions, entryObj.$ref);
+                //processAllOfEntry(definitions, def, parentDef);
+                def.supertype = parentRef.title;
+                parentRef.subclasses = parentRef.subclasses || [];
+                parentRef.subclasses.push(def);
+                break;
+            case 'required':
+                copyRequired(def, entryObj.required); break;
+            case 'description':
+            case 'type':
+                copyPropIfMissing(def, entryObj, propName); break;
+            // case 'name':
+            // case 'displayName':
+            // case 'title':
+            // ignore for now, although this is information about parents 
+        }
+    }
+}
+function copyRequired(targetDef, required) {
+    (required || []).forEach(function(required) {
+        targetDef.required.push(required);
+    });
+}
+function copyPropIfMissing(targetDef, source, propName) {
+    if (!targetDef[propName]) {
+        targetDef[propName] = source[propName]; 
+    }
+}
+function init() {
+    var modelNames = Object.keys(definitions);
     modelNames = modelNames.sort();
     
     var df = document.createDocumentFragment();
@@ -88,61 +305,35 @@ function init(swagger) {
         item.classList.add("item");
         item.id = "node-" + modelName;
         item.href = "#" + modelName;
-        item.innerHTML = swagger.definitions[modelName].displayName;
+        item.innerHTML = definitions[modelName].displayName;
         df.appendChild(item);
     });
     nameContainer.appendChild(df);
-    definitions = swagger.definitions;
 }
-function processProperty(propName, prop) {
-    // If it's at the top level, the model is the property. However this
-    // doesn't actually work.
-    if (prop.$ref) {
-        var propModel = getModelFromRef(prop.$ref);
-        for (var propName in propModel) {
-            prop[propName] = propModel[propName];
-        }
-        console.log("prop", prop);
+
+function displayName(def) {
+    if (/List_/.test(def.name)) {
+        var parts = def.name.split("_");
+        return parts[0]  + "&lt;" + parts[1] + "&gt;"
     }
-    prop.name = propName;
-    if (prop.description) {
-        if (!/\.$/.test(prop.description.trim())) {
-            prop.description += ".";
-        }
-    } else {
-        prop.description = "<i>No description.</i>";
-    }
-    prop.type = TYPE_LABELS[prop.format || prop.type](prop);
-    if (propName === "type" && prop.enum && prop.enum.length === 1) {
-        prop.type = "String";
-        prop.description = "<tt>&ldquo;" + prop.enum[0] + "&rdquo;</tt>";
-    }
-    if (prop.enum && prop.enum.length > 1) {
-        prop.enum = "Enumerated: <span style='color:rebeccapurple'>" + prop.enum.join(", ") + "</span><br>"
-    } else {
-        prop.enum = "";
-    }
+    return def.name;
 }
-function renderDetail(modelName) {
-    var def = definitions[modelName];
-    def.propList = def.propList || (function() {
-        return "<dl>" + Object.keys(def.properties).map(function(propName) {
-            var prop = def.properties[propName];
-            processProperty(propName, prop);
-            return format(propTemplate, prop);
-        }).join("") + "</dl>";
-    })();
-    modelDetail.innerHTML = format(detailTemplate, def);
+function renderDetail(defName) {
+    modelDetail.innerHTML = "";
+    var def = definitions[defName];
+    def.description = marked(def.description);
+    modelDetail.innerHTML = template(def);
 }
 function loadModel() {
-    var modelName = document.location.hash.substring(1);
-    var item = document.querySelector("#node-"+modelName);
+    window.scrollTo(0,0);
+    var defName = document.location.hash.substring(1);
+    var item = document.querySelector("#node-"+defName);
     if (item) {
         if (currentItem) {
             currentItem.classList.remove("active");
         }
         item.classList.add("active");
-        renderDetail(modelName);
+        renderDetail(defName);
         currentItem = item;
     }
 }
