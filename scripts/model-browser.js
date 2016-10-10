@@ -3,13 +3,18 @@ function multiline(fn) {
 	return COMMENT_PARSER.exec(fn.toString())[1];
 };
 
-fetch('./swagger.json').then(function(response) {
-    response.json().then(function(swagger) {
-        window.definitions = processSwagger(swagger); 
-        init();
-        loadModel();
-    });
+// fetch doesn't work on Safari
+var request = new XMLHttpRequest();
+request.addEventListener("load", function(response) {
+    var swagger = JSON.parse(response.srcElement.responseText);
+    window.definitions = processSwagger(swagger); 
+    init();
+    loadModel();
 });
+request.overrideMimeType("text/json; charset=utf-8");
+request.open("GET", "./swagger.json");
+request.send();
+
 marked.setOptions({gfm: true, tables: true});
 
 var templateText = multiline(function() {/*
@@ -65,21 +70,17 @@ var modelDetail = document.querySelector("#model_detail");
 var currentItem, definitions;
 var template = Handlebars.compile(templateText);
 
-var getTypeLabel = function() {
-    var TYPE_LABELS = {
-        'boolean': 'Boolean',
-        'string': 'String',
-        'date-time': 'ISO 8601 date & time string',
-        'date': 'ISO 8601 date string',
-        'integer': 'Integer'
-    };
-    return function(key) {
-        var value = TYPE_LABELS[key];
-        // If there's no label we check that elsewhere. There are some cases where things
-        // are getting processed twice, where this would fail the second time.
-        return value;
+var getTypeLabel = function(key) {
+    switch(key) {
+        case 'boolean': return "Boolean";
+        case 'string': return "String";
+        case 'date-time': return "ISO 8601 date & time string";
+        case 'date': return "ISO 8601 date string";
+        case 'integer': return "Integer";
+        default: return '';
     }
 }
+
 
 function getDefinition(definitions, $ref) {
     return definitions[ $ref.split("/").pop() ];
