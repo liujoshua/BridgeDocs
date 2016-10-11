@@ -55,6 +55,14 @@ var templateText = multiline(function() {/*
                 {{/if}}
             </dt>
             <dd>
+                {{#if default}}
+                    <div style="color:#b22222">default value: {{default}}</div>
+                {{/if}}
+                {{#if required}}
+                    <div style="color:rebeccapurple">required</div>
+                {{else}}
+                    <div style="color:rebeccapurple">optional</div>
+                {{/if}}
                 {{#if enum}}
                     <div class="enumeration">
                         {{#enum}}<code>{{.}}</code><br>{{/enum}}
@@ -117,10 +125,6 @@ function processSwagger(swagger) {
             def.showClassRelationships = true;
         }
     });
-    // This is not describable as a super-type, because it doesn't have a discriminator 
-    // property to select a concreate subtype. It's just a mixin. I beleve anything
-    // with subclasses property and no discriminator can be deleted this way.
-    delete swagger.definitions.AbstractStudyParticipant;
     return swagger.definitions;
 }
 function transferUsesFromSuperToSubType(definitions, def, propName) {
@@ -143,17 +147,6 @@ function processDefinition(definitions, propName, def) {
     Object.keys(def.properties).forEach(function(propName) {
         processProperty(definitions, propName, def, def.properties[propName]);
     });
-    /* This is no longer sufficient fo find subclasses; look for a top-level
-        $ref in an allOf: clause (there can be only one in our modeling)
-    if (typeof def.discriminator !== "undefined") {
-        def.subclasses = def.properties.type.enum.map(function(className) {
-            var subtype = definitions[className];
-            subtype.supertype = def.title;
-            return {name: className, link: className};
-        });
-        delete def.properties.type;
-    }
-    */
     // This is just so the key appears last; iteration in browser I test is consisent
     // with order of insertion.
     if (def.properties.type) {
@@ -180,6 +173,7 @@ function processProperty(definitions, propName, def, property) {
                 property.description = marked(property.description); break;
         }
     }
+    property.required = (def.required.indexOf(propName) > -1);
     if (property.enum) {
         property.type = "Enumeration";
     }
