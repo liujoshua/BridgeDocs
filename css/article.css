@@ -35,6 +35,15 @@ main img {
     padding: 1rem;
     max-width: 100%;
 }
+    #toc {
+        margin: 1rem 0;
+    }
+        #toc:before {
+            content: "Table of contents";
+            font-weight: bold;
+            display: block;
+            padding-bottom: .5rem;
+        }
 footer {
     border-top: 1px solid #e5e5e5;
     padding: 1rem;
@@ -44,6 +53,12 @@ p, li, dd, dt {
     line-height: 1.8;
     font-size: 16px;
 }
+    th, td {
+        font-size: 16px;
+    }
+    dd table {
+        margin-bottom: 1rem!important;
+    }
 p:empty, dd:empty {
     display: none;
 }
