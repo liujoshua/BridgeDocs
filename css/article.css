@@ -49,15 +49,12 @@ footer {
     padding: 1rem;
     text-align: center;
 }
-p, li, dd, dt {
+p, li {
     line-height: 1.8;
     font-size: 16px;
 }
     th, td {
         font-size: 16px;
-    }
-    dd table {
-        margin-bottom: 1rem!important;
     }
 p:empty, dd:empty {
     display: none;
@@ -99,24 +96,26 @@ p:empty, dd:empty {
 }
 dl.properties dt {
     display: flex;
-    border-top: 2px solid #f4f4f4;
+    border-top: 2px solid #e5e5e5;
     align-items: baseline;
-    padding: .25rem .5rem;
+    font-size: 16px;
+    padding: .75rem .5rem .5rem .5rem;
+    margin: 0;
 }
-    dl.properties dd {
-        margin-top: 0;
-        margin-bottom: .4rem;
-        line-height: 1;
-    }
     dl.properties dt *:first-child {
         flex: 1;
     }
-.property-mods {
-    padding-left:.5rem; 
-    color:rebeccapurple; 
-    font-size:smaller; 
-    font-variant: small-caps;
-}
+    dl.properties p {
+        font-size: 16px;
+        line-height: 1.2;
+        margin: 0 0 .5rem 0;
+    }
+    dl.properties p:last-child {
+        margin-bottom: .85rem;
+    }
+    dl.properties table {
+        margin-bottom: 1rem!important;
+    }
 
 @media print {
     nav, header {
