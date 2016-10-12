@@ -3,4 +3,4 @@ title: Data Retrieval & Analysis
 layout: article
 ---
 
-I hope to have some information here next week after meeting with Brian.
+Documentation is coming. In the meanwhile, please direct questions Brian Bot &lt;brian.bot@sagebase.org&gt;.

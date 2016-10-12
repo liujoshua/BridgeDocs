@@ -44,24 +44,29 @@ var templateText = multiline(function() {/*
     {{/if}}
     <p>{{{description}}}</p>
     <h2>Properties</h2>
-    <dl>
+    <dl class="properties">
         {{#properties}}
             <dt>
-                <b>{{name}}</b> : 
-                {{#if type.title}}
-                    <a href="{{type.link}}">{{type.title}}</a>
-                {{else}}
-                    {{type}}
-                {{/if}}
+                <span>
+                    <b>{{name}}</b> : 
+                    {{#if type.title}}
+                        <a href="{{type.link}}">{{type.title}}</a>
+                    {{else}}
+                        {{type}}
+                    {{/if}}
+                </span>
+                <span class="property-mods">
+                    {{#if required}}
+                        <span class="ui tiny yellow label">REQUIRED</span>
+                    {{/if}}
+                    {{#if readOnly}}
+                        <span class="ui tiny olive label">READONLY</span>
+                    {{/if}}
+                </span>
             </dt>
             <dd>
                 {{#if default}}
                     <div style="color:#b22222">default value: {{default}}</div>
-                {{/if}}
-                {{#if required}}
-                    <div style="color:rebeccapurple">required</div>
-                {{else}}
-                    <div style="color:rebeccapurple">optional</div>
                 {{/if}}
                 {{#if enum}}
                     <div class="enumeration">
@@ -164,6 +169,8 @@ function processProperty(definitions, propName, def, property) {
                 enumToConstant(property); break;
             case 'items':
                 relabelArray(definitions, propName, def, property); break;
+            case 'readOnly':
+                console.log(property); break;
             case 'format':
             case 'type':
                 relabelPropType(definitions, def, property); break;
@@ -238,8 +245,12 @@ function relabelPropType(definitions, def, property) {
     }
 }
 function addUse(parentDef, childDef) {
-    parentDef.uses = parentDef.uses || [];
-    parentDef.uses.push(childDef);
+    if (parentDef && childDef) {
+        parentDef.uses = parentDef.uses || [];
+        parentDef.uses.push(childDef);
+    } else {
+        console.warn("missing parentDef or childDef", parentDef, childDef);
+    }
 }
 function createSuperType(definitions, def, property) {
     var superType = getDefinition(definitions, property.$ref);
