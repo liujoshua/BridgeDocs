@@ -55,7 +55,7 @@ var templateText = multiline(function() {/*
                         {{type}}
                     {{/if}}
                 </span>
-                <span class="property-mods">
+                <span>
                     {{#if required}}
                         <span class="ui tiny yellow label">REQUIRED</span>
                     {{/if}}
@@ -66,7 +66,7 @@ var templateText = multiline(function() {/*
             </dt>
             <dd>
                 {{#if default}}
-                    <div style="color:#b22222">default value: {{default}}</div>
+                    <p style="color:#b22222">default value: {{default}}</p>
                 {{/if}}
                 {{#if enum}}
                     <div class="enumeration">
