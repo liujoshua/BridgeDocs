@@ -97,9 +97,27 @@ p:empty, dd:empty {
     padding: 0rem 1rem;
     margin: .75rem 1rem;
 }
-dd, dd p {
-    line-height: 1.4;
+dl.properties dt {
+    display: flex;
+    border-top: 2px solid #f4f4f4;
+    align-items: baseline;
+    padding: .25rem .5rem;
 }
+    dl.properties dd {
+        margin-top: 0;
+        margin-bottom: .4rem;
+        line-height: 1;
+    }
+    dl.properties dt *:first-child {
+        flex: 1;
+    }
+.property-mods {
+    padding-left:.5rem; 
+    color:rebeccapurple; 
+    font-size:smaller; 
+    font-variant: small-caps;
+}
+
 @media print {
     nav, header {
         display:none;
