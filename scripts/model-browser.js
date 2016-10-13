@@ -48,40 +48,42 @@ var templateText = multiline(function() {/*
         </div>
     {{/if}}
     <p>{{{description}}}</p>
-    <h2>Properties</h2>
-    <dl class="properties">
-        {{#properties}}
-            <dt>
-                <span>
-                    <b>{{name}}</b> : 
-                    {{#if type.title}}
-                        <a href="{{type.link}}">{{type.title}}</a>
-                    {{else}}
-                        {{type}}
+    {{#if properties}}
+        <h2>Properties</h2>
+        <dl class="properties">
+            {{#properties}}
+                <dt>
+                    <span>
+                        <b>{{name}}</b> : 
+                        {{#if type.title}}
+                            <a href="{{type.link}}">{{type.title}}</a>
+                        {{else}}
+                            {{type}}
+                        {{/if}}
+                    </span>
+                    <span>
+                        {{#if required}}
+                            <span class="ui tiny yellow label">REQUIRED</span>
+                        {{/if}}
+                        {{#if readOnly}}
+                            <span class="ui tiny olive label">READONLY</span>
+                        {{/if}}
+                    </span>
+                </dt>
+                <dd>
+                    {{#if default}}
+                        <p style="color:#b22222">default value: {{default}}</p>
                     {{/if}}
-                </span>
-                <span>
-                    {{#if required}}
-                        <span class="ui tiny yellow label">REQUIRED</span>
+                    {{#if enum}}
+                        <div class="enumeration">
+                            {{#enum}}<code>{{.}}</code><br>{{/enum}}
+                        </div>
                     {{/if}}
-                    {{#if readOnly}}
-                        <span class="ui tiny olive label">READONLY</span>
-                    {{/if}}
-                </span>
-            </dt>
-            <dd>
-                {{#if default}}
-                    <p style="color:#b22222">default value: {{default}}</p>
-                {{/if}}
-                {{#if enum}}
-                    <div class="enumeration">
-                        {{#enum}}<code>{{.}}</code><br>{{/enum}}
-                    </div>
-                {{/if}}
-                {{{description}}}
-            </dd>
-        {{/properties}}
-    </dl>
+                    {{{description}}}
+                </dd>
+            {{/properties}}
+        </dl>
+    {{/if}}
 */});
 var nameContainer = document.querySelector("#model_nav");
 var modelDetail = document.querySelector("#model_detail");
@@ -98,7 +100,6 @@ var getTypeLabel = function(key) {
         default: return '';
     }
 }
-
 
 function getDefinition(definitions, $ref) {
     return definitions[ $ref.split("/").pop() ];
@@ -177,8 +178,6 @@ function processProperty(definitions, propName, def, property) {
             case 'default':
                 // necessary to do this so falsey defaults like 0 and false display in template.
                 property.default = new String(property.default); break;
-            case 'readOnly':
-                console.log(property); break;
             case 'format':
             case 'type':
                 relabelPropType(definitions, def, property); break;
@@ -234,8 +233,13 @@ function relabelPropType(definitions, def, property) {
         var ap = property.additionalProperties;
         if (ap) {
             if (ap.type) {
-                var label = getTypeLabel(ap.type);
-                property.type = "Map<String,"+label+">";
+                if (ap.type === "array") {
+                    var label = getTypeLabel(ap.items.type);
+                    property.type = "Map<String,"+label+"[]>";
+                } else {
+                    var label = getTypeLabel(ap.type);
+                    property.type = "Map<String,"+label+">";
+                }
             } else if (ap.$ref) {
                 var refType = getDefinition(definitions, ap.$ref);
                 addUse(refType, def);
