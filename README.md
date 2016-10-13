@@ -66,3 +66,4 @@ The models are defined from the perspective of API consumers, so some keywords s
 |`readOnly`|This property appears defined in models, but it is not changeable by the API consumer. Were the consumer to add it to a model, it would be ignored when submitted to the server.|
 |`required`|This property must appear on a JSON model submitted by the API consumer; the API consumer will receive an error if it is not present.|
 
+It an object is used in an informational or readonly API, and used in a JSON payload that is sent to the server, define these fields for the object as it would be sent to the server.
