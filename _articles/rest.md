@@ -8,6 +8,17 @@ The REST API is expressed as a <a href="/swagger.json">Swagger specification
 file</a>, which can be used to generate a simple Bridge REST client in a wide 
 variety of languages. See <a href="http://swagger.io/">Swagger</a> for more 
 information.
+
+<ul>
+    <li>
+        <a href="/swagger-ui/index.html" target="_blank">API Browser</a> - 
+            view the URLs of the API
+    </li>
+    <li>
+        <a href="/model-browser.html">Model Browser</a> - 
+            view the payloads (JSON) sent back and forth in the API
+    </li>
+</ul>
 </div>
 
 The Bridge service API can be accessed at [https://webservices.sagebridge.org](https://webservices.sagebridge.org). Sessions are always scoped to a specific study, and any call that creates a session (or operates without one, such as a request to reset a password), will require the study identifier be provided as part of the JSON payload.

@@ -23,14 +23,19 @@ var templateText = multiline(function() {/*
         {{#discriminator}}<i>&laquo;Abstract&raquo;</i>{{/discriminator}}
         {{#if supertype}} <i>subtype of <a href="#{{supertype}}">{{supertype}}</a></i>{{/if}}
     </h2>
+    {{#if readOnly}}
+        <span class="ui small olive label">READONLY</span>
+    {{/if}}
     {{#if showClassRelationships}}
         <div class="ui message">
             {{#if subclasses.length}}
                 <p class="subclass">
-                    To create a complete JSON payload, you will need to use one of these subtypes: 
+                    To create a complete JSON payload, you will need to use one of these subtypes:
+                    <ul style="margin-bottom:0">
                     {{#subclasses}}
-                        <a href="{{link}}">{{name}}</a>
-                    {{/subclasses}}. 
+                        <li><a href="{{link}}">{{name}}</a></li>
+                    {{/subclasses}}
+                    </ul>
                 </p>
             {{/if}}
             {{#if uses.length}}
@@ -169,6 +174,9 @@ function processProperty(definitions, propName, def, property) {
                 enumToConstant(property); break;
             case 'items':
                 relabelArray(definitions, propName, def, property); break;
+            case 'default':
+                // necessary to do this so falsey defaults like 0 and false display in template.
+                property.default = new String(property.default); break;
             case 'readOnly':
                 console.log(property); break;
             case 'format':
