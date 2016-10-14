@@ -22,6 +22,7 @@ else
   exit 1
 fi
 cd ../
-rm -rf java
-rm swagger-codegen-cli.jar
+# rm -rf java/
+# rm swagger-codegen-cli.jar
+# rm -rf node_modules/
 bundle exec jekyll build
