@@ -51,6 +51,38 @@ var templateText = multiline(function() {/*
     {{#if properties}}
         <h2>Properties</h2>
         <dl class="properties">
+            {{#inheritedProperties}}
+                <dt>
+                    <span>
+                        <b>{{name}}</b> : 
+                        {{#if type.title}}
+                            <a href="{{type.link}}">{{type.title}}</a>
+                        {{else}}
+                            {{type}}
+                        {{/if}}
+                    </span>
+                    <span>
+                        {{#if required}}
+                            <span class="ui tiny yellow label">REQUIRED</span>
+                        {{/if}}
+                        {{#if readOnly}}
+                            <span class="ui tiny olive label">READONLY</span>
+                        {{/if}}
+                    </span>
+                    <span class="ui tiny label">INHERITED</span>
+                </dt>
+                <dd>
+                    {{#if default}}
+                        <p style="color:#b22222">default value: {{default}}</p>
+                    {{/if}}
+                    {{#if enum}}
+                        <div class="enumeration">
+                            {{#enum}}<code>{{.}}</code><br>{{/enum}}
+                        </div>
+                    {{/if}}
+                    {{{description}}}
+                </dd>
+            {{/inheritedProperties}}
             {{#properties}}
                 <dt>
                     <span>
@@ -83,7 +115,7 @@ var templateText = multiline(function() {/*
                 </dd>
             {{/properties}}
         </dl>
-    {{/if}}
+    {{/if}}  
 */});
 var nameContainer = document.querySelector("#model_nav");
 var modelDetail = document.querySelector("#model_detail");
@@ -144,6 +176,12 @@ function transferUsesFromSuperToSubType(definitions, def, propName) {
         if (aSuper.uses) {
             def.uses = (def.uses || []).concat( aSuper.uses );
         }
+        if (aSuper.properties) {
+            Object.keys(aSuper.properties).forEach(function(keyName) {
+                def.inheritedProperties.push(aSuper.properties[keyName]);
+            });
+            console.log(def.inheritedProperties);
+        }
     }
 }
 function processDefinition(definitions, propName, def) {
@@ -151,6 +189,7 @@ function processDefinition(definitions, propName, def) {
     def.properties = def.properties || {};
     def.required = def.required || [];
     def.description = def.description || "";
+    def.inheritedProperties = [];
     if (def.allOf) {
         processAllOf(definitions, def, def.allOf);
         delete def.allOf;
