@@ -6,7 +6,7 @@ function multiline(fn) {
 // fetch doesn't work on Safari
 var request = new XMLHttpRequest();
 request.addEventListener("load", function(response) {
-    var swagger = JSON.parse(response.srcElement.responseText);
+    var swagger = JSON.parse(response.target.responseText);
     window.definitions = processSwagger(swagger); 
     init();
     loadModel();
@@ -180,7 +180,6 @@ function transferUsesFromSuperToSubType(definitions, def, propName) {
             Object.keys(aSuper.properties).forEach(function(keyName) {
                 def.inheritedProperties.push(aSuper.properties[keyName]);
             });
-            console.log(def.inheritedProperties);
         }
     }
 }
