@@ -67,3 +67,15 @@ The models are defined from the perspective of API consumers, so some keywords s
 |`required`|This property must appear on a JSON model submitted by the API consumer; the API consumer will receive an error if it is not present.|
 
 It an object is used in an informational or readonly API, and used in a JSON payload that is sent to the server, define these fields for the object as it would be sent to the server.
+
+## Generating the API client from Swagger specification
+
+To look at the Java source code that will be generated from the specification, you can run the generation locally. Download the swagger-codegen-cli.jar:
+
+    wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar -O swagger-codegen-cli.jar
+
+Then this should do it:
+
+    java -jar swagger-codegen-cli.jar generate -i _site/swagger.json -l java --library retrofit2 -o java/
+
+These files are officially produced in the BridgeJavaSdk/api-codegen sub-project of our Java SDK repository.
