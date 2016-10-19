@@ -20,10 +20,6 @@ for (var i=0; i < items.length; i++) {
     var item = items[i];
 
     item.className = "ui compact table";
-    var div = document.createElement('div');
-    div.className = "table-wrapper";
-    item.parentNode.replaceChild(div, item);
-    div.appendChild(item);
 }
 function iconify(item, iconName) {
     var icon = document.createElement("i");

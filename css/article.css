@@ -59,16 +59,6 @@ p, li {
 p:empty, dd:empty {
     display: none;
 }
-/*
-.table-wrapper, pre {
-    margin: 1rem 0;
-    max-width: 50rem;
-    overflow-x: auto;
-}
-.table-wrapper td, .table-wrapper th {
-    vertical-align: top;
-}
-*/
 table, pre {
     margin: 1rem 0!important;
     max-width: 50rem!important;
