@@ -59,13 +59,4 @@ Filtering is done on osName + appVersion (other kinds of filtering may be done a
 
 ## Roles
 
-The following roles exist on the Bridge server:
-
-|Role|Description|
-|---|---|
-|researcher|Researchers have rights to access study consents (to add, edit and delete them, as well as publish them), and they have the right to view study participant information. Users with the researcher role will be granted developer privileges as well.|
-|developer|Developers have the right to edit studies, upload schemas, surveys, and schedules. They have complete control over a study's configuration, but they do not have access to the consents or to information about participants in a study. Researchers will be given developer privileges as well as the researcher role.|
-|consented users|Any participant in a study who has consented to research.|
-|all users|A publicly-accessible endpoint. No role required.|
-|administrator|Bridge administrators. These are Sage employees and the API for these users is documented separately.|
-
+There are some [roles](/#Role) that you must be assigned on the server in order to use many of the administrative APIs on Bridge.
