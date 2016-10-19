@@ -2,3 +2,100 @@
 title: iOS &amp; ResearchKit Support
 layout: article
 ---
+
+<div class="ui positive message">
+Our support for iOS development comprises three frameworks: BridgeSDK, BridgeAppSDK, and CMSSupport, and our own forks of Apple's open-source ResearchKit and AppCore frameworks.
+
+The relevant Github repos are:
+
+<ul>
+    <li>
+        <a href="https://github.com/Sage-Bionetworks/Bridge-iOS-SDK.git">BridgeSDK</a> - a framework to access the Bridge REST API
+    </li>
+    <li>
+        <a href="https://github.com/Sage-Bionetworks/BridgeAppSDK.git">BridgeAppSDK</a> - an extensible, customizable application framework for building mHealth apps using Bridge and ResearchKit
+    </li>
+	<li>
+		<a href="https://github.com/Sage-Bionetworks/CMSSupport.git">CMSSupport</a> - a framework providing support for correctly encrypting files for upload to Bridge
+	</li>
+	<li>
+		<a href="https://github.com/Sage-Bionetworks/AppCore.git">AppCore</a> - (deprecated; use BridgeAppSDK instead) Sage's updated and modified fork of <a href="https://github.com/ResearchKit/AppCore.git">Apple's AppCore framework</a>
+	</li>
+	<li>
+		<a href="https://github.com/Sage-Bionetworks/ResearchKit.git">ResearchKit</a> - Sage's fork of <a href="https://github.com/ResearchKit/ResearchKit.git">Apple's ResearchKit framework</a>
+	</li>
+</ul>
+</div>
+
+## BridgeSDK
+
+The BridgeSDK framework is written in Objective-C, and provides robust and secure access to the Bridge REST API for your iOS apps under the BSD license. It supports caching of some Bridge objects (with support for more coming soon), NSURLSession background uploads of data, and accessing much of the REST API via background downloads so your app can continue to work when no Internet connection is available.
+
+BridgeSDK supports Xcode 7 and newer, and has a minimum target version of iOS 8.0.
+
+### Adding BridgeSDK directly to your project
+
+BridgeAppSDK (see below) includes BridgeSDK as a sub-project, so if you intend to use that framework, skip these instructions and follow the ones in that section.
+
+Otherwise:
+
+- Add the BridgeSDK project to the app target for your project.
+
+- Add the BridgeSDK target's build product (BridgeSDK.framework) to the Linked Frameworks and Libraries and Embedded Frameworks sections on your app target's General tab (or, alternatively, add it to the Link Binary with Libraries and Embed Frameworks build phases).
+
+- In your AppDelegate source file, import the BridgeSDK:
+
+```objectivec
+@import BridgeSDK;
+```
+
+- From your AppDelegate's `application:willFinishLaunchingWithOptions:` method, before calling any other BridgeSDK methods, call one of the its setup methods with your study name (provided by Sage when your Bridge study was created), e.g.:
+
+```objectivec
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	...
+	[BridgeSDK setupWithStudy:@"mystudyname" cacheDaysAhead:4 cacheDaysBehind:1];
+	...
+}
+```
+
+### Using BridgeSDK in your project
+
+BridgeSDK is organized into 'managers' that correspond roughly to the Bridge REST APIs. You can obtain a default instance of an API manager from the component manager (`SBBComponentManager`) via class methods or, more usually (in Objective-C code at least), via the `SBBComponent()` convenience macro. For example, to sign up a new participant to your study, you might make a call like this:
+
+```objectivec
+        [SBBComponent(SBBAuthManager) signUpWithEmail:email
+                                             username:email
+                                             password:password
+                                           dataGroups:dataGroups
+                                           completion:^(NSURLSessionTask * __unused task,
+                                                         id __unused responseObject,
+                                                         NSError *error)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 if (!error) {
+                     // handle successful sign-up, e.g. ask the user to click the link in the verification email before proceeding to sign them in with these credentials
+                 } else {
+					 // handle failed sign-up
+				 }
+             });
+         }];
+```
+
+See the BridgeSDK documentation for more details, and the BridgeAppSDK framework and sample app source code for working examples.
+
+## CMSSupport
+
+The CMSSupport framework was built to provide drop-in CMS encryption support for file uploads to Bridge in apps built with Apple's open-source AppCore framework, or with Sage's extensively modified and updated fork of AppCore. 
+
+Apple no longer actively maintains their fork of the AppCore framework, and our fork is now only minimally maintained in support of a handful of legacy applications that still use it. We strongly recommend all new apps should instead be based on the BridgeAppSDK framework and its sample app (see below). BridgeAppSDK also uses the CMSSupport framework, mainly for the OpenSSL framework target it builds. 
+
+You would probably never need to use the CMSSupport framework directly.
+
+## BridgeAppSDK
+
+The BridgeAppSDK framework is written primarily in Swift 3.0, and provides an extensible and customizable application framework for building mHealth apps using Bridge and ResearchKit. It supersedes both Apple's and Sage's forks of the older AppCore framework, which was not built to be extensible or customizable and is therefore no longer being actively supported.
+
+BridgeAppSDK includes the correct commits of BridgeSDK, CMSSupport, and ResearchKit as git submodules.
+
