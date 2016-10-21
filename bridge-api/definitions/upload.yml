@@ -42,7 +42,7 @@ properties:
         items:
             type: string
     healthRecordExporterStatus:
-        $ref: ./enums/health_record_exporter_status.yml    
+        $ref: ./enums/synapse_exporter_status.yml
     type:
         type: string
         readOnly: true
