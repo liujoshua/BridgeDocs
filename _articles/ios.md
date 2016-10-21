@@ -49,6 +49,10 @@ Otherwise:
 @import BridgeSDK;
 ```
 
+```swift
+import BridgeSDK
+```
+
 - From your AppDelegate's `application:willFinishLaunchingWithOptions:` method, before calling any other BridgeSDK methods, call one of the its setup methods with your study name (provided by Sage when your Bridge study was created), e.g.:
 
 ```objectivec
@@ -58,6 +62,14 @@ Otherwise:
 	[BridgeSDK setupWithStudy:@"mystudyname" cacheDaysAhead:4 cacheDaysBehind:1];
 	...
 }
+```
+
+```swift
+func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        ...
+        BridgeSDK.setup(withStudy: "mystudyname", cacheDaysAhead: 4, cacheDaysBehind: 1)
+        ...
+    }
 ```
 
 ### Using BridgeSDK in your project
@@ -81,6 +93,19 @@ BridgeSDK is organized into 'managers' that correspond roughly to the Bridge RES
 				 }
              });
          }];
+```
+
+```swift
+        let authManager = SBBComponentManager.component(SBBAuthManager.self) as! SBBAuthManagerProtocol
+        authManager.signUp(withEmail: email, username: email, password: password) { (_, responseObject, error) in
+            DispatchQueue.main.async {
+                guard error == nil else {
+                    // handle failed sign-up
+                    return
+                }
+                // handle successful sign-up, e.g. ask the user to click the link in the verification email before proceeding to sign them in with these credentials
+            }
+        }
 ```
 
 See the BridgeSDK documentation for more details, and the BridgeAppSDK framework and sample app source code for working examples.
