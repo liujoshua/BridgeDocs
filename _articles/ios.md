@@ -45,17 +45,20 @@ Otherwise:
 
 - In your AppDelegate source file, import the BridgeSDK:
 
-```objectivec
+Objective-C:
+```objc
 @import BridgeSDK;
 ```
 
+Swift:
 ```swift
 import BridgeSDK
 ```
 
 - From your AppDelegate's `application:willFinishLaunchingWithOptions:` method, before calling any other BridgeSDK methods, call one of the its setup methods with your study name (provided by Sage when your Bridge study was created), e.g.:
 
-```objectivec
+Objective-C:
+```objc
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	...
@@ -64,6 +67,7 @@ import BridgeSDK
 }
 ```
 
+Swift:
 ```swift
 func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         ...
@@ -76,7 +80,8 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
 
 BridgeSDK is organized into 'managers' that correspond roughly to the Bridge REST APIs. You can obtain a default instance of an API manager from the component manager (`SBBComponentManager`) via class methods or, more usually (in Objective-C code at least), via the `SBBComponent()` convenience macro. For example, to sign up a new participant to your study, you might make a call like this:
 
-```objectivec
+Objective-C:
+```objc
         [SBBComponent(SBBAuthManager) signUpWithEmail:email
                                              username:email
                                              password:password
@@ -95,6 +100,7 @@ BridgeSDK is organized into 'managers' that correspond roughly to the Bridge RES
          }];
 ```
 
+Swift:
 ```swift
         let authManager = SBBComponentManager.component(SBBAuthManager.self) as! SBBAuthManagerProtocol
         authManager.signUp(withEmail: email, username: email, password: password) { (_, responseObject, error) in
