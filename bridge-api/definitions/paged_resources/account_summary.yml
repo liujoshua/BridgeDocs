@@ -1,11 +1,5 @@
 type: object
-required:
-    - items
-    - offsetBy
-    - pageSize
-    - emailFilter
-    - total
-    - type
+readOnly: true
 properties:
     items:
         type: array
@@ -25,4 +19,5 @@ properties:
         description: The total number of records that match the criteria (may exceed page size)
     type:
         type: string
+        readOnly: true
         enum: [PagedResourceList]

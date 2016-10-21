@@ -1,4 +1,5 @@
 get:
+    operationId: getParticipantUploads
     summary: Get a study participant's upload history
     description: |
         Retrieve information about the uploads from a user. This is particularly useful during 
@@ -30,3 +31,7 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/upload.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

@@ -1,8 +1,5 @@
 type: object
-required:
-    - items
-    - total
-    - type
+readOnly: true
 properties:
     items:
         type: array
@@ -13,5 +10,5 @@ properties:
         description: The total number of records in the list
     type:
         type: string
+        readOnly: true
         enum: [ResourceList]
-        

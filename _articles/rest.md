@@ -8,6 +8,17 @@ The REST API is expressed as a <a href="/swagger.json">Swagger specification
 file</a>, which can be used to generate a simple Bridge REST client in a wide 
 variety of languages. See <a href="http://swagger.io/">Swagger</a> for more 
 information.
+
+<ul>
+    <li>
+        <a href="/swagger-ui/index.html" target="_blank">API Browser</a> - 
+            view the URLs of the API
+    </li>
+    <li>
+        <a href="/model-browser.html">Model Browser</a> - 
+            view the payloads (JSON) sent back and forth in the API
+    </li>
+</ul>
 </div>
 
 The Bridge service API can be accessed at [https://webservices.sagebridge.org](https://webservices.sagebridge.org). Sessions are always scoped to a specific study, and any call that creates a session (or operates without one, such as a request to reset a password), will require the study identifier be provided as part of the JSON payload.
@@ -48,13 +59,4 @@ Filtering is done on osName + appVersion (other kinds of filtering may be done a
 
 ## Roles
 
-The following roles exist on the Bridge server:
-
-|Role|Description|
-|---|---|
-|researcher|Researchers have rights to access study consents (to add, edit and delete them, as well as publish them), and they have the right to view study participant information. Users with the researcher role will be granted developer privileges as well.|
-|developer|Developers have the right to edit studies, upload schemas, surveys, and schedules. They have complete control over a study's configuration, but they do not have access to the consents or to information about participants in a study. Researchers will be given developer privileges as well as the researcher role.|
-|consented users|Any participant in a study who has consented to research.|
-|all users|A publicly-accessible endpoint. No role required.|
-|administrator|Bridge administrators. These are Sage employees and the API for these users is documented separately.|
-
+There are some [roles](/#Role) that you must be assigned on the server in order to use many of the administrative APIs on Bridge.

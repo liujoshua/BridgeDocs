@@ -1,4 +1,5 @@
 post:
+    operationId: resendEmailVerification
     tags: ["Authentication"]
     description: |
         Resend an email to the provided email address asking the address holder to verify their 
@@ -10,7 +11,7 @@ post:
           description: Email address of participant
           required: true
           schema:
-                $ref: '../../definitions/email.yml'
+                $ref: ../../definitions/email.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml

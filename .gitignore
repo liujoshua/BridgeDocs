@@ -4,7 +4,9 @@ _site
 *~
 .DS_Store
 .idea
-/*.json
 .vscode
 java
 swagger-codegen-cli.jar
+Untitled-1
+/swagger.json
+

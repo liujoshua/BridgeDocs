@@ -1,4 +1,5 @@
 get:
+    operationId: getUserProfile
     deprecated: true
     summary: Retrieve the user profile for this account.
     description: |
@@ -16,7 +17,10 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/user_profile.yml
+        401:
+            $ref: ../../responses/401.yml
 post:
+    operationId: updateUserProfile
     deprecated: true
     summary: Update the user profile
     description: |
@@ -39,3 +43,5 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml

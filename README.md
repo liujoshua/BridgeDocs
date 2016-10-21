@@ -49,3 +49,33 @@ BooleanConstraints:
 ```
 
 Note above that Swagger defines a constant through the use of an enum with only one value.
+
+### Responses
+
+Be sure to document the security requirements for an endpoint by documenting the error codes 
+that can be returned. For example, there are 403 responses for all the role requirements 
+that exist for endpoints, so the required roles are enumerated in the documentation. As 
+well, any endpoint that requires consent should document 410/412 responses. And so forth.
+
+### Model properties
+
+The models are defined from the perspective of API consumers, so some keywords should be interpreted in that context:
+
+|Term|Note|
+|---|---|
+|`readOnly`|This property appears defined in models, but it is not changeable by the API consumer. Were the consumer to add it to a model, it would be ignored when submitted to the server.|
+|`required`|This property must appear on a JSON model submitted by the API consumer; the API consumer will receive an error if it is not present.|
+
+It an object is used in an informational or readonly API, and used in a JSON payload that is sent to the server, define these fields for the object as it would be sent to the server.
+
+## Generating the API client from Swagger specification
+
+To look at the Java source code that will be generated from the specification, you can run the generation locally. Download the swagger-codegen-cli.jar:
+
+    wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar -O swagger-codegen-cli.jar
+
+Then this should do it:
+
+    java -jar swagger-codegen-cli.jar generate -i _site/swagger.json -l java --library retrofit2 -o java/
+
+These files are officially produced in the BridgeJavaSdk/api-codegen sub-project of our Java SDK repository.

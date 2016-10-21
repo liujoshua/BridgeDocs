@@ -2,6 +2,11 @@
 {% include head.html %}
 <body>
 <div class="content">
+    <script>
+    if (document.location.hash) {
+        document.location.replace('/model-browser.html?'+document.location.hash); 
+    }
+    </script>
     {% include tabs.html %}
     <div class="masthead">
         <i class="ui mobile icon mobile-logo">

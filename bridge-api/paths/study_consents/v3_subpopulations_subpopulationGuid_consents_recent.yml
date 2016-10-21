@@ -1,4 +1,5 @@
 get:
+    operationId: getMostRecentConsent
     summary: Get the most recently created consent revision
     description: |
         Get the most recently created revision of this subpopulation consent. This is not 
@@ -15,3 +16,7 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study_consent.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                  

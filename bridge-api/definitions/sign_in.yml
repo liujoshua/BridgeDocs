@@ -1,3 +1,4 @@
+description: Information to sign in to the Bridge server.
 type: object
 required:
     - study
@@ -12,8 +13,10 @@ properties:
         description: User's email address
     password:
         type: string
+        format: password
         description: User's password
     type:
         type: string
+        readOnly: true
         enum: [SignIn]
         

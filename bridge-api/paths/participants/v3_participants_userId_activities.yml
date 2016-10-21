@@ -1,4 +1,5 @@
 get:
+    operationId: getParticipantActivities
     summary: Get paged history of activities scheduled for a participant
     description: |
         Provides a view of all the activities that have been created for a participant. The state of these activities is 
@@ -26,7 +27,12 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/activity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
 delete:
+    operationId: deleteParticipantActivities
     summary: Delete all activities for a participant
     description: |
         Intended for use in development. Developers may wish to delete an account's scheduled activities in order 
@@ -43,4 +49,8 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
         

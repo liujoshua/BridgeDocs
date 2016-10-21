@@ -1,10 +1,9 @@
 type: object
-description: A survey element (info screen or question)
+description: A survey element (either an info screen or a question).
 discriminator: type 
 required:
     - guid
     - identifier
-    - type
 properties:
     guid:
         type: string

@@ -1,13 +1,7 @@
+description: |
+    Summary of a participant for APIs to search and page through participant accounts.  
 type: object
-required:
-    - firstName
-    - lastName
-    - email
-    - id
-    - createdOn
-    - status
-    - studyIdentifier
-    - type
+readOnly: true
 properties:
     firstName:
         type: string
@@ -26,14 +20,10 @@ properties:
         format: date-time
         description: Read only. ISO 8601 date and time that the user account was created.
     status:
-        type: string
-        description: User account status. `unverified` indicates the user has not verified their email address.
-        enum:
-            - enabled
-            - disabled
-            - unverified
+        $ref: ./enums/account_status.yml
     studyIdentifier:
         $ref: ./study_identifier.yml
     type:
         type: string
+        readOnly: true
         enum: [AccountSummary]

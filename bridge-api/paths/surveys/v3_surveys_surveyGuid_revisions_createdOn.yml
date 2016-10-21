@@ -1,4 +1,5 @@
 get:
+    operationId: getSurvey
     summary: Get a survey revision
     tags:
         - Surveys
@@ -12,8 +13,17 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/survey.yml                
+                $ref: ../../definitions/survey.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml
 post:
+    operationId: updateSurvey
     summary: Update a non-published survey revision
     tags:
         - Surveys
@@ -32,7 +42,12 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
+    operationId: deleteSurvey
     summary: Delete a survey version
     tags:
         - Surveys
@@ -52,3 +67,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

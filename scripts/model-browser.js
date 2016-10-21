@@ -6,7 +6,7 @@ function multiline(fn) {
 // fetch doesn't work on Safari
 var request = new XMLHttpRequest();
 request.addEventListener("load", function(response) {
-    var swagger = JSON.parse(response.srcElement.responseText);
+    var swagger = JSON.parse(response.target.responseText);
     window.definitions = processSwagger(swagger); 
     init();
     loadModel();
@@ -23,14 +23,19 @@ var templateText = multiline(function() {/*
         {{#discriminator}}<i>&laquo;Abstract&raquo;</i>{{/discriminator}}
         {{#if supertype}} <i>subtype of <a href="#{{supertype}}">{{supertype}}</a></i>{{/if}}
     </h2>
+    {{#if readOnly}}
+        <span class="ui small olive label">READONLY</span>
+    {{/if}}
     {{#if showClassRelationships}}
         <div class="ui message">
             {{#if subclasses.length}}
                 <p class="subclass">
-                    To create a complete JSON payload, you will need to use one of these subtypes: 
+                    To create a complete JSON payload, you will need to use one of these subtypes:
+                    <ul style="margin-bottom:0">
                     {{#subclasses}}
-                        <a href="{{link}}">{{name}}</a>
-                    {{/subclasses}}. 
+                        <li><a href="{{link}}">{{name}}</a></li>
+                    {{/subclasses}}
+                    </ul>
                 </p>
             {{/if}}
             {{#if uses.length}}
@@ -43,35 +48,74 @@ var templateText = multiline(function() {/*
         </div>
     {{/if}}
     <p>{{{description}}}</p>
-    <h2>Properties</h2>
-    <dl>
-        {{#properties}}
-            <dt>
-                <b>{{name}}</b> : 
-                {{#if type.title}}
-                    <a href="{{type.link}}">{{type.title}}</a>
-                {{else}}
-                    {{type}}
-                {{/if}}
-            </dt>
-            <dd>
-                {{#if default}}
-                    <div style="color:#b22222">default value: {{default}}</div>
-                {{/if}}
-                {{#if required}}
-                    <div style="color:rebeccapurple">required</div>
-                {{else}}
-                    <div style="color:rebeccapurple">optional</div>
-                {{/if}}
-                {{#if enum}}
-                    <div class="enumeration">
-                        {{#enum}}<code>{{.}}</code><br>{{/enum}}
-                    </div>
-                {{/if}}
-                {{{description}}}
-            </dd>
-        {{/properties}}
-    </dl>
+    {{#if properties}}
+        <h2>Properties</h2>
+        <dl class="properties">
+            {{#inheritedProperties}}
+                <dt>
+                    <span>
+                        <b>{{name}}</b> : 
+                        {{#if type.title}}
+                            <a href="{{type.link}}">{{type.title}}</a>
+                        {{else}}
+                            {{type}}
+                        {{/if}}
+                    </span>
+                    <span>
+                        {{#if required}}
+                            <span class="ui tiny yellow label">REQUIRED</span>
+                        {{/if}}
+                        {{#if readOnly}}
+                            <span class="ui tiny olive label">READONLY</span>
+                        {{/if}}
+                    </span>
+                    <span class="ui tiny label">INHERITED</span>
+                </dt>
+                <dd>
+                    {{#if default}}
+                        <p style="color:#b22222">default value: {{default}}</p>
+                    {{/if}}
+                    {{#if enum}}
+                        <div class="enumeration">
+                            {{#enum}}<code>{{.}}</code><br>{{/enum}}
+                        </div>
+                    {{/if}}
+                    {{{description}}}
+                </dd>
+            {{/inheritedProperties}}
+            {{#properties}}
+                <dt>
+                    <span>
+                        <b>{{name}}</b> : 
+                        {{#if type.title}}
+                            <a href="{{type.link}}">{{type.title}}</a>
+                        {{else}}
+                            {{type}}
+                        {{/if}}
+                    </span>
+                    <span>
+                        {{#if required}}
+                            <span class="ui tiny yellow label">REQUIRED</span>
+                        {{/if}}
+                        {{#if readOnly}}
+                            <span class="ui tiny olive label">READONLY</span>
+                        {{/if}}
+                    </span>
+                </dt>
+                <dd>
+                    {{#if default}}
+                        <p style="color:#b22222">default value: {{default}}</p>
+                    {{/if}}
+                    {{#if enum}}
+                        <div class="enumeration">
+                            {{#enum}}<code>{{.}}</code><br>{{/enum}}
+                        </div>
+                    {{/if}}
+                    {{{description}}}
+                </dd>
+            {{/properties}}
+        </dl>
+    {{/if}}  
 */});
 var nameContainer = document.querySelector("#model_nav");
 var modelDetail = document.querySelector("#model_detail");
@@ -88,7 +132,6 @@ var getTypeLabel = function(key) {
         default: return '';
     }
 }
-
 
 function getDefinition(definitions, $ref) {
     return definitions[ $ref.split("/").pop() ];
@@ -133,6 +176,11 @@ function transferUsesFromSuperToSubType(definitions, def, propName) {
         if (aSuper.uses) {
             def.uses = (def.uses || []).concat( aSuper.uses );
         }
+        if (aSuper.properties) {
+            Object.keys(aSuper.properties).forEach(function(keyName) {
+                def.inheritedProperties.push(aSuper.properties[keyName]);
+            });
+        }
     }
 }
 function processDefinition(definitions, propName, def) {
@@ -140,6 +188,7 @@ function processDefinition(definitions, propName, def) {
     def.properties = def.properties || {};
     def.required = def.required || [];
     def.description = def.description || "";
+    def.inheritedProperties = [];
     if (def.allOf) {
         processAllOf(definitions, def, def.allOf);
         delete def.allOf;
@@ -164,6 +213,9 @@ function processProperty(definitions, propName, def, property) {
                 enumToConstant(property); break;
             case 'items':
                 relabelArray(definitions, propName, def, property); break;
+            case 'default':
+                // necessary to do this so falsey defaults like 0 and false display in template.
+                property.default = new String(property.default); break;
             case 'format':
             case 'type':
                 relabelPropType(definitions, def, property); break;
@@ -219,8 +271,13 @@ function relabelPropType(definitions, def, property) {
         var ap = property.additionalProperties;
         if (ap) {
             if (ap.type) {
-                var label = getTypeLabel(ap.type);
-                property.type = "Map<String,"+label+">";
+                if (ap.type === "array") {
+                    var label = getTypeLabel(ap.items.type);
+                    property.type = "Map<String,"+label+"[]>";
+                } else {
+                    var label = getTypeLabel(ap.type);
+                    property.type = "Map<String,"+label+">";
+                }
             } else if (ap.$ref) {
                 var refType = getDefinition(definitions, ap.$ref);
                 addUse(refType, def);
@@ -238,8 +295,12 @@ function relabelPropType(definitions, def, property) {
     }
 }
 function addUse(parentDef, childDef) {
-    parentDef.uses = parentDef.uses || [];
-    parentDef.uses.push(childDef);
+    if (parentDef && childDef) {
+        parentDef.uses = parentDef.uses || [];
+        parentDef.uses.push(childDef);
+    } else {
+        console.warn("missing parentDef or childDef", parentDef, childDef);
+    }
 }
 function createSuperType(definitions, def, property) {
     var superType = getDefinition(definitions, property.$ref);

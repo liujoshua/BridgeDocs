@@ -1,8 +1,7 @@
 description: |
      See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.
+readOnly: true
 type: object
-required:
-    - type
 properties:
     createdOn:
         type: string
@@ -21,10 +20,12 @@ properties:
             ResearchKit-based apps, this is info.json verbatim.
     schemaId:
         type: string
-        description: Schema ID for the record.
+        description: |
+            [UploadSchema](#UploadSchema) ID for the record.
     schemaRevision:
         type: integer
-        description: Schema revision for the record.
+        description: |
+            [UploadSchema](#UploadSchema) revision for the record.
     studyId:
         type: string
         description: Study that this record lives in.
@@ -44,10 +45,7 @@ properties:
     userSharingScope:
         type: string
         description: The user's sharing scope at the time of this upload's submission.
-        enum:
-            - no_sharing
-            - sponsors_and_partners
-            - all_qualified_researchers
+        $ref: ./enums/sharing_scope.yml
     userExternalId:
         type: string
         description: The user's external ID at the time of this upload's submission.
@@ -65,4 +63,5 @@ properties:
             value issued by the service or an update will fail.
     type:
         type: string
+        readOnly: true
         enum: [HealthDataRecord]

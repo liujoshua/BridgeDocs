@@ -1,4 +1,5 @@
 post:
+    operationId: publishConsent
     summary: Publish a specific consent revision
     description: |
         Publish a specific revision of this subpopulation consent by its creation timestamp. This version of 
@@ -13,7 +14,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/subpopulationGuid
-        - name: timestamp
+        - name: createdOn
           description: creation timestamp of the revision
           type: string
           format: date-time
@@ -22,4 +23,8 @@ post:
         - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
-            $ref: '../../responses/200_message.yml'
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                  

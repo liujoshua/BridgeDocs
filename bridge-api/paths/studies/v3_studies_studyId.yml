@@ -1,4 +1,5 @@
 get:
+    operationId: getStudy
     summary: Get a study
     tags: 
         - Studies
@@ -12,7 +13,10 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml                
 post:
+    operationId: updateStudy
     summary: Update a study
     tags:
         - Studies
@@ -29,7 +33,10 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml            
 delete:
+    operationId: deleteStudy
     summary: Delete a study
     tags:
         - Studies
@@ -41,4 +48,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
-    
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

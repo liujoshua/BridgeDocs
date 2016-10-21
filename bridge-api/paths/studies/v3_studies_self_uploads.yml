@@ -1,4 +1,5 @@
 get:
+    operationId: getStudyUploads
     summary: Get uploads for a study
     tags: 
         - Studies
@@ -14,4 +15,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/upload.yml
-    
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+                

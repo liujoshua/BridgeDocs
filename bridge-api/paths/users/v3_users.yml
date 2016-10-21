@@ -1,4 +1,5 @@
 post:
+    operationId: createUser
     summary: Create a new user
     tags:
         - Users
@@ -6,12 +7,16 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: StudyParticipant
+        - name: SignUp
           in: body
           description: New user 
           required: true
           schema:
-            $ref: ../../definitions/study_participant.yml
+            $ref: ../../definitions/sign_up.yml
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

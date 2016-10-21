@@ -1,9 +1,12 @@
+description: |
+    A schedule plan relates schedules to some specific strategies for using these schedules to create 
+    activities for participants.
 type: object
 required:
     - guid
     - label
+    - version
     - strategy
-    - type
 properties:
     guid:
         type: string
@@ -12,12 +15,13 @@ properties:
     modifiedOn:
         type: string
         format: date-time
+        readOnly: true
     strategy:
         $ref: ./schedule_strategy.yml
     version:
         type: integer
     type:
         type: string
+        readOnly: true
         enum: [SchedulePlan]
-
     

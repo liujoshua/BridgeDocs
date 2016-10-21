@@ -1,4 +1,5 @@
 get:
+    operationId: getAllRevisionsOfUploadSchema
     summary: Get all revisions of an upload schema
     tags: 
         - Upload Schemas
@@ -12,7 +13,12 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
+    operationId: deleteAllRevisionsOfUploadSchema
     summary: Delete all revisions of an upload schema
     tags: 
         - Upload Schemas
@@ -24,3 +30,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

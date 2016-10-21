@@ -1,55 +1,60 @@
 type: object
+discriminator: type
 properties:
     firstName:
         type: string
+        description: First name (given name) of the user.
     lastName:
         type: string
-    email:
-        type: string
+        description: Last name (family name) of the user.
     externalId:
         type: string
-        description: An optional value assigned by study managers to re-identify a participant's data set
+        description: |
+            An externally-assignable identifier a research partner can use to re-identify a user's data 
+            in the exported data set (this must be provided by the application, it is not created by Bridge). 
+            If external IDs are managed, this is required on creation and cannot be modified after the 
+            account is created. Otherwise, it is a string that can be set to any value, changed, removed, etc.
     id:
         type: string
         readOnly: true
+        description: An ID assigned to identify this user as an account in the Bridge system. This is separate 
+            from the healthCode and the two are never associated in the API or the data exported from Bridge. 
+            Used to retrieve study participant information through the API. 
     notifyByEmail:
         type: boolean
+        default: true
+        description: |
+            True if the user has consented to be contacted via email outside the application, false otherwise.
     attributes:
         type: object
+        additionalProperties:
+            type: string
         description: |
             A map of user profile attributes that have been set for this user (the attributes themselves 
             must be specified in the study's configuration, and the values are stored encrypted in case they 
             are personally-identifying information).
     sharingScope:
-        type: string
-        enum:
-            - no_sharing
-            - sponsors_and_partners
-            - all_qualified_researchers
+        $ref: ./enums/sharing_scope.yml
     createdOn:
         type: string
         format: date-time
         readOnly: true
     status:
-        type: string
-        enum:
-            - disabled
-            - enabled
-            - unverified
+        $ref: ./enums/account_status.yml
     roles:
         type: array
         items:
-            type: string
-            enum:
-                - developer
-                - researcher
-                - admin
-                - worker
+            $ref: ./enums/role.yml
     dataGroups:
         type: array
+        description: data groups to apply to this user
         items:
             type: string
     languages:
         type: array
+        description: |
+            Two letter language codes to assign to this user (these are initially retrieved from the 
+            user's Accept-Language header, but are persisted after this as part of the user's options 
+            and it can be updated later).
         items:
             type: string

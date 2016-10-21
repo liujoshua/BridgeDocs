@@ -1,4 +1,5 @@
 post:
+    operationId: emailDataToUser
     summary: Make user's data available for download
     description: |
         Asynchronously request the uploaded data for this user, in a given time range (inclusive). 
@@ -19,3 +20,9 @@ post:
     responses:
         202:
             $ref: ../../responses/202_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

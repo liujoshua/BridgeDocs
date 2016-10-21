@@ -1,10 +1,5 @@
 type: object
-required:
-    - items
-    - startDate
-    - endDate
-    - total
-    - type
+readOnly: true
 properties:
     items:
         type: array
@@ -20,4 +15,5 @@ properties:
         type: integer
     type:
         type: string
+        readOnly: true
         enum: [DateRangeResourceList]

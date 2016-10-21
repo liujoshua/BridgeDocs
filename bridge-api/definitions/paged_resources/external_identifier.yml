@@ -1,12 +1,5 @@
 type: object
-required:
-    - items
-    - pageSize
-    - offsetKey
-    - idFilter
-    - offsetFilter
-    - total
-    - type
+readOnly: true
 properties:
     items:
         type: array
@@ -24,4 +17,5 @@ properties:
         type: integer
     type:
         type: string
-        enum: [DateRangeResourceList]
+        readOnly: true
+        enum: [PagedResourceList]

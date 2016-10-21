@@ -1,4 +1,5 @@
 get:
+    operationId: getPublishedSurveys
     summary: Get the most recently published version of each survey
     tags:
         - Surveys
@@ -9,4 +10,8 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/survey.yml                
+                $ref: ../../definitions/paged_resources/survey.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

@@ -1,4 +1,5 @@
 get:
+    operationId: getStudyEmailStatus
     summary: SES email verification status
     description: |
         Consents will be emailed from the support email address you provide. Amazon 
@@ -13,3 +14,7 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/email_verification_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

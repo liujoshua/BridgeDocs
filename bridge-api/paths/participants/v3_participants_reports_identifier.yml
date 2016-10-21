@@ -1,4 +1,5 @@
 post:
+    operationId: addParticipantReportRecordForWorker
     summary: Add a participant report record
     description: |
         Endpoint for a worker to add a report record for a participant. Unlike other endpoints, 
@@ -15,11 +16,16 @@ post:
           required: true
           in: body
           schema:
-            $ref: ../../definitions/report_data_with_healthCode.yml
+            $ref: ../../definitions/report_data.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml
 delete:
+    operationId: deleteParticipantReportIndex
     summary: Delete a participant report index
     description: |
         Delete a participant report index. These indices can be shared between users so they 
@@ -35,3 +41,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

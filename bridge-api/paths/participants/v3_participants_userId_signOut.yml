@@ -1,4 +1,5 @@
 post:
+    operationId: signOutParticipant
     summary: Sign the user out and delete their server session
     tags:
         - Participants
@@ -11,3 +12,7 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                

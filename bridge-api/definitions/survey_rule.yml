@@ -5,32 +5,15 @@ description: |
     * if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or end the survey);
     * if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;
     * if there are no rules or no rule matches, proceed to the next question in the list.
+
+    Either `skipToTarget` or `endSurvey` should be supplied in the rule.
 type: object
 required:
     - operator
     - value
-    - type
 properties:
     operator:
-        type: string
-        description: |
-            |Value|Operator meaning|
-            |---|---|
-            |eq|equal to|
-            |ne|not equal to|
-            |lt|less than|
-            |gt|greater than|
-            |le|less than or equal to|
-            |ge|greater than or equal to|
-            |de|user declines to answer this question (it is being skipped)|
-        enum:
-            - eq
-            - ne
-            - lt
-            - gt
-            - le
-            - ge
-            - de
+        $ref: ./enums/operator.yml
     value:
         type: string
         description: The value submitted by the user (as a string).
@@ -47,4 +30,5 @@ properties:
             skipTo that).
     type:
         type: string
+        readOnly: true
         enum: [SurveyRule]

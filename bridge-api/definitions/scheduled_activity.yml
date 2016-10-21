@@ -6,17 +6,15 @@ description: |
 type: object
 required:
     - guid
-    - schedulePlanGuid
-    - activity
-    - scheduledOn
-    - persistent
-    - status
-    - type
+    - startedOn
+    - finishedOn
 properties:
     guid:
         type: string
+        readOnly: true
     schedulePlanGuid:
         type: string
+        readOnly: true
     startedOn:
         type: string
         format: date-time
@@ -26,27 +24,20 @@ properties:
     scheduledOn:
         type: string
         format: date-time
+        readOnly: true
     expiresOn:
         type: string
         format: date-time
+        readOnly: true
     activity:
         $ref: ./activity.yml 
+        readOnly: true
     persistent:
         type: boolean
+        readOnly: true
     status:
-        type: string
-        description: |
-            The activities returned from this endpoint will be `scheduled` (will happen in the future); 
-            `available` (user can do the activity now); or `started` (the client has updated the activity to 
-            indicate it has been started). Activities are not returned from the API if they are `deleted` 
-            or `finished`.
-        enum:
-            - deleted
-            - finished
-            - started
-            - expired
-            - scheduled
-            - available
+        $ref: ./enums/schedule_status.yml
     type:
         type: string
+        readOnly: true
         enum: [ScheduledActivity]
