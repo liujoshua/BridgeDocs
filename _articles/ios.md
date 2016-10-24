@@ -4,9 +4,9 @@ layout: article
 ---
 
 <div class="ui positive message">
-We support iOS development with three frameworks: BridgeSDK, BridgeAppSDK, and CMSSupport, as well as our own forks of Apple's open-source ResearchKit and AppCore frameworks.
+<p>We support iOS development with three frameworks: BridgeSDK, BridgeAppSDK, and CMSSupport, as well as our own forks of Apple's open-source ResearchKit and AppCore frameworks.</p>
 
-The relevant Github repos are:
+<p>The relevant Github repos are:</p>
 
 <ul>
     <li>

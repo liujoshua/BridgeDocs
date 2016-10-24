@@ -56,6 +56,15 @@ p, li {
     th, td {
         font-size: 16px;
     }
+    .ui.positive.message ul {
+        margin-left: 1.5rem;
+        padding-left: 0;
+    }
+    .ui.positive.message p, .ui.positive.message li {
+        color: rgb(44, 102, 45)!important;
+        opacity: 1!important;
+        line-height: 1.4!important;
+    }
 p:empty, dd:empty {
     display: none;
 }

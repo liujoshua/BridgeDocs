@@ -1,5 +1,5 @@
 ---
-title: Building Your Study
+title: Study Design
 layout: article
 study_design: true
 ---
