@@ -1,36 +1,46 @@
 {% include security-nav.html %}
 {% include study-design-nav.html %}
 {% include model-browser-nav.html %}
-<div class="item">
-    <div class="header">iOS</div>
-    <div class="menu">
-        <a class="item" href="/articles/ios.html">Getting Started</a>
-        <a class="item" href="https://github.com/Sage-Bionetworks/Bridge-iOS-SDK">GitHub</a>
+{% unless page.security == true or page.study_design == true %}
+    <div class="item">
+        <div class="header">Bridge Studies</div>
+        <div class="menu">
+            <a class="item" href="/articles/overview.html">
+                Overview
+            </a>
+            <a class="item" data-filepath="/articles/security" href="/articles/security.html">
+                Security
+            </a>
+            <a class="item" data-filepath="/articles/study_design" href="/articles/study_design/study_design.html">
+                Study Design
+            </a>
+        </div>
     </div>
-</div>
-<div class="item">
-    <div class="header">Android <small>&amp;</small> Java</div>
-    <div class="menu">
-        <a class="item" href="/articles/java.html">Getting Started</a>
-        <a class="item" href="/java-sdk/{{site.data.versions.java_sdk}}/apidocs/index.html">Java SDK <javadocs></javadocs></a>
-        <a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a>
-    </div>
-</div>
+{% endunless %}
 <div class="item">
     <div class="header">REST API</div>
     <div class="menu">
         <a class="item" href="/articles/rest.html">Getting Started</a>
         <a class="item" href="/articles/errors.html">Server Responses &amp; Errors</a>
         <a class="item" href="/articles/service_deprecation.html">Deprecation of services</a>
-        <a class="item" href="https://developer.sagebridge.org/swagger-ui/index.html">API Browser</a>
-        <a class="item" href="/model-browser.html">Model Browser</a>
-        <a class="item" href="https://research.sagebridge.org/">Bridge Study Manager</a>
+    </div>
+</div>
+<div class="item">
+    <div class="header">iOS</div>
+    <div class="menu">
+        <a class="item" href="/articles/ios.html">Getting Started</a>
+    </div>
+</div>
+<div class="item">
+    <div class="header">Android <small>&amp;</small> Java</div>
+    <div class="menu">
+        <a class="item" href="/articles/java.html">Getting Started</a>
+        <a class="item" href="/java-sdk/{{site.data.versions.java_sdk}}/apidocs/index.html">Java SDK javadocs</a>
     </div>
 </div>
 <div class="item">
     <div class="header">Data Retrieval &amp; Analysis</div>
     <div class="menu">
         <a class="item" href="/articles/analysis.html">Getting Started</a>
-        <a class="item" href="https://www.synapse.org/">Synapse</a>
     </div>
 </div>

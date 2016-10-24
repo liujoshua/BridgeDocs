@@ -1,6 +1,7 @@
 ---
 title: Overview of the Bridge Server
 layout: article
+overview: true
 ---
 
 Sage Bionetworks’ Bridge Server is designed to securely manage data captured from IRB-approved human health research studies conducted through mobile technology platforms. The server allows study participants to fully manage their individual health data while participating in app-mediated health research studies. It also enables the aggregation, distribution and reuse of participant data for future research in accordance with best practices for data privacy and the protection of human subjects. Sage is architecting Bridge as an online service which may potentially be used by multiple mobile health studies and apps. These studies may or may not have Sage personnel involved in the actual study. Thus, a key aspect of the Bridge architecture is that personal contact information for study participants is stored completely separately and securely from the study data (e.g. height, body weight, blood pressures, heart rates, medications, voice recordings, survey answers).

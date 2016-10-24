@@ -3,7 +3,14 @@ title: Android &amp; Java Support
 layout: article
 ---
 
-We currently have a REST API SDK in Java to support Android application development. However, it is a general purpose Java library for accessing the Bridge REST API. It  may be used in any Java program that supports Java 7 or later, including Android applications.
+<div class="ui positive message">
+
+<p>We currently have a Java SDK with several sub-projects, including a REST client that is forming the basis for our Android SDK. </p>
+
+<ul>
+    <li><a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a></li>
+</ul>
+</div>
 
 ## Installing the SDK (Maven)
 
