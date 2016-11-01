@@ -5,7 +5,7 @@ layout: article
 
 <div class="ui positive message">
 
-<p>We currently have a Java SDK with several sub-projects, including a REST client that is forming the basis for our Android SDK. </p>
+<p>We currently have a Java-based REST client: </p>
 
 <ul>
     <li><a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a></li>
@@ -14,21 +14,22 @@ layout: article
 
 ## Installing the SDK (Maven)
 
-Add the Sage Bionetworks repository and the SDK to your <code>pom.xml</code>:
+Add the Sage Bionetworks repository and the REST client to your <code>pom.xml</code>:
 
 ``` xml
 <dependencies>
     <dependency>
-        <groupId>org.sagebionetworks.bridge</groupId>
-        <artifactId>java-sdk</artifactId>
-        <version>{{site.data.versions.java_sdk}}</version>
+    <groupId>org.sagebionetworks</groupId>
+    <artifactId>rest-client</artifactId>
+    <version>{{site.data.versions.java_sdk}}</version>
     </dependency>
 </dependencies>
 ...
 <repositories>
     <repository>
-        <id>sagebionetworks-releases-local</id>
-        <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-releases-local</url>
+        <id>org-sagebridge-repo-maven-releases</id>
+        <name>org-sagebridge-repo-maven-releases</name>
+        <url>http://repo-maven.sagebridge.org/</url>
     </repository>
 </repositories>
 ```
@@ -36,21 +37,28 @@ Add the Sage Bionetworks repository and the SDK to your <code>pom.xml</code>:
 If you don't have an account to start, you can create one (if you do not have a study, you will have to contact Sage Bionetworks to create one):
 
 ``` java
-SignUpCredentials signUp = new SignUpCredentials(
-    "studyIdentifier", "username", "email", "password");
-ClientProvider.signUp(signUp);
+SignUp signUp = new SignUp()
+    .study("my-study-id")
+    .email("email@email.com")
+    .password("password");
+
+ClientManager manager = new ClientManager.build();
+AuthenticationApi authApi = manager.getClient(AuthenticationApi.class);
+authApi.signUp(signUp).execute();
 
 // check your email and verify your email address
 
-// Now you can sign in
-SignInCredentials signIn = new SignInCredentials(
-    "studyIdentifier", "username", "password");
-Session session = ClientProvider.signIn(config.getAccountCredentials());
+// Now you can sign in, although ClientManager will do this automatically
+SignIn signIn = new SignIn()
+    .study("my-study-id")
+    .email("email@email.com")
+    .password("password");
+UserSessionInfo session = authApi.signIn(signIn).execute().body();
 ```
 
 ## Configuration
 
-Once you have an account, you can create a `bridge-sdk.properties` file in your user home directory (`~/bridge-sdk.properites` on Mac OSX and Linux):
+If you use the `ClientManager` class to manage access to the server, you should create a `bridge-sdk.properties` file in your user home directory (`~/bridge-sdk.properites` on Mac OSX and Linux):
 
 ``` java
 study.identifier = yourStudyIdentifier
@@ -61,44 +69,44 @@ account.password = yourPassword
 Now you can use the credentials without embedding them in your program:
 
 ``` java
-Config config = ClientProvider.getConfig();
-Session session = ClientProvider.signIn(config.getAccountCredentials());
+// The first time you connect to the server, we will sign you in.
+Config config = new Config();
+ClientManager manager = new ClientManager
+    .withConfig(config).withSignIn(config.getAccountCredentials()).build();
+
+// Will sign you in any time you do not have a session.
+ForConsentedUsersApi usersApi = manager.getClient(ForConsentedUsersApi.class);
+ScheduledActivityList scheduledActivities = usersApi
+    .getScheduledActivities("+00:00", 4, 0).execute().body();
 ```
 
-The server can tailor behavior for your app based on its version. But you must send this information to the server in the `User-Agent` header of requests. It's important to configure this correctly before the first release of your app, because once released the app cannot be changed. You will then lose the ability to tailor content (or even access) to an app based on its version. 
-
-In your code during initialization, you configure the user agent using the `ClientInfo` object:
+The server can tailor behavior for your app based on its version. But you must send this information to the server in the `User-Agent` header of requests. This is represented by the `ClientInfo` class, which can be provided to the `ClientManager`: 
 
 ``` java
-ClientProvider.getClientInfo()
-    .withAppName("My App Name") // same across platforms
-    .withAppVersion(1)
-    .withDevice("HTC Legend");
+ClientInfo info = new ClientInfo();
+info.setAppName("HealthStudyApp");
+info.setAppVersion(12);
+info.setDeviceName("Google Plexus");
+info.setOsName("Android"); // or iPhone OS
+info.setOsVersion("10.0.2");
+
+ClientManager manager = new ClientManager
+    .withClientInfo(info)
+    .withClientConfig(config)
+    .withSignIn(config.getAccountCredentials()).build();
 ```
 
-See the `ClientInfo` object for further details.
+See the [`ClientInfo`](/#ClientInfo) object for further details.
 
 ## Using the SDK
 
-Once you have created an account and signed in, you can use the session to get a client tailored to your specific permissions in the API:
+The available Api clients are documented in the javadocs for the REST client. You can create them 
+using the `ClientManager` (as shown above).
 
-``` java
-// Client for normal participant activities like submitting data or 
-// retrieving activities
-UserClient client = session.getUserClient();
-
-// There are many other clients for administration of a study:
-UploadSchemaClient schemaClient = session.getUploadSchemaClient();
-ParticipantClient participantClient = session.getParticipantClient();
-```
-
-Each of these clients is documented in the API documentation. 
-  
 Finally you may wish to sign out when you are done:
 
 ``` java
-session.signOut();
+AuthenticationApi authApi = manager.getClient(AuthenticationApi.class);
+authApi.signout(new EmptyPayload()).execute();
 ```
 
-**The clients share configuration state.** You must create separate clients if you 
-wish to have multiple threads accessing the API concurrently, but all threads will depend on shared mutable configuration state.
