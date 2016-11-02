@@ -106,6 +106,6 @@ Finally you may wish to sign out when you are done:
 
 ``` java
 AuthenticationApi authApi = manager.getClient(AuthenticationApi.class);
-authApi.signout(new EmptyPayload()).execute();
+authApi.signout().execute();
 ```
 
