@@ -11,6 +11,8 @@ This is a jekyll-based site, see: https://jekyllrb.com/ for further instructions
 bundler exec jekyll server
 ```
 
+The `_data/versions.yml` file contains the version numbers of our SDKs and libraries, which can then be referred to in markdown documents as `{{site.data.versions.your_sdk_key_property}}`. This should help to centralize updates when we update our software. (Actually you can put any variable in this file you want to reuse through the documentation, that's fine.)
+
 In addition, we are using node to install the Swagger command line tools.
 
 ## Swagger API documentation
@@ -78,4 +80,4 @@ Then this should do it:
 
     java -jar swagger-codegen-cli.jar generate -i _site/swagger.json -l java --library retrofit2 -o java/
 
-The resulting swagger.json file will be copied periodically to `BridgeJavaSdk/api-codegen/swagger.json` in order to update our REST API client.
+The resulting swagger.json file will be copied periodically to `BridgeJavaSdk/rest-client/swagger.json` in order to update our REST API client.

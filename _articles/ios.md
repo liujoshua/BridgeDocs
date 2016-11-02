@@ -1,5 +1,5 @@
 ---
-title: iOS &amp; ResearchKit Support
+title: iOS &amp; ResearchKit SDKs
 layout: article
 ---
 

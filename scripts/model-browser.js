@@ -364,6 +364,7 @@ function init() {
         item.innerHTML = definitions[modelName].displayName;
         df.appendChild(item);
     });
+    nameContainer.innerHTML = "";
     nameContainer.appendChild(df);
 }
 

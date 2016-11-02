@@ -47,13 +47,7 @@ The Bridge server allows study designers to filter resources by the version of t
 
 If the header is not in one of these prescribed formats, it will be ignored and all server resources will be returned. Note that it is possible to come up with partial combinations of these strings that confuse our parsing; be sure your UA string is in one of these formats.
 
-The SDKs provide APIs to set this client information. For example, in the Java SDK:
-
-``` java
-ClientProvider.setClientInfo(new ClientInfo.Builder()
-    .withAppName("Share The Journey")
-    .withAppVersion(12).build());
-```
+The [Java REST client](/articles/java.html) provides APIs to set this header. 
 
 Filtering is done on osName + appVersion (other kinds of filtering may be done at a later date).
 

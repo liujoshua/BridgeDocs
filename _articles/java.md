@@ -1,18 +1,19 @@
 ---
-title: Android &amp; Java Support
+title: REST Java Client
 layout: article
 ---
 
 <div class="ui positive message">
 
-<p>We currently have a Java-based REST client: </p>
+<p>We currently have a Java-based REST client (v{{site.data.versions.java_sdk}}): </p>
 
 <ul>
+    <li><a class="item" href="/rest-client/{{site.data.versions.java_sdk}}/apidocs/index.html">REST client API docs</a></li>
     <li><a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a></li>
 </ul>
 </div>
 
-## Installing the SDK (Maven)
+## Installing the REST client (Maven)
 
 Add the Sage Bionetworks repository and the REST client to your <code>pom.xml</code>:
 
@@ -71,8 +72,7 @@ Now you can use the credentials without embedding them in your program:
 ``` java
 // The first time you connect to the server, we will sign you in.
 Config config = new Config();
-ClientManager manager = new ClientManager
-    .withConfig(config).withSignIn(config.getAccountCredentials()).build();
+ClientManager manager = new ClientManager.withConfig(config).build();
 
 // Will sign you in any time you do not have a session.
 ForConsentedUsersApi usersApi = manager.getClient(ForConsentedUsersApi.class);
@@ -87,18 +87,17 @@ ClientInfo info = new ClientInfo();
 info.setAppName("HealthStudyApp");
 info.setAppVersion(12);
 info.setDeviceName("Google Plexus");
-info.setOsName("Android"); // or iPhone OS
+info.setOsName("Android"); // or "iPhone OS"
 info.setOsVersion("10.0.2");
 
 ClientManager manager = new ClientManager
     .withClientInfo(info)
-    .withClientConfig(config)
-    .withSignIn(config.getAccountCredentials()).build();
+    .withClientConfig(config).build();
 ```
 
 See the [`ClientInfo`](/#ClientInfo) object for further details.
 
-## Using the SDK
+## Using the client
 
 The available Api clients are documented in the javadocs for the REST client. You can create them 
 using the `ClientManager` (as shown above).
