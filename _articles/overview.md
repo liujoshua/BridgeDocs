@@ -33,7 +33,7 @@ Together, this platform provides the most complete set of support for the develo
 ![Sage Platform](/images/Bridge%20-%20Sage%20Overview.png)
 
 ## More info
-For more information about Bridge, or to speak to someone about launching a mobile health study please contact us at [bridge.info@sagebase.org](mailto:bridge.info@sagebase.org).
+For more information about Bridge, or to speak to someone about launching a mobile health study please contact us at [bridge.info@sagebase.org](mailto:bridge.info@sagebase.org).  Also, please let us know if any part of this documentation is confusing or incomplete.
 
 Bridge is developed and maintained by [Sage Bionetworks](http://sagebase.org/), a not-for profit biomedical research institute.
 
