@@ -11,7 +11,7 @@ overview: true
 
 <ul>
     <li>
-        <a href="http://developer.sagebridge.org/articles/rest.html">Bridge Services</a> - A set of REST-based web services that allow mobile apps to receive study configuration such as surveys and task schedules, manage participant registration and consent, and securely receive participant data.  Bridge Server source code is available in GitHub - however Sage recommends developers use Sage's hosted service
+        <a href="http://developer.sagebridge.org/articles/rest.html">Bridge Services</a> - A set of REST-based web services that allow mobile apps to receive study configuration such as surveys and task schedules, manage participant registration and consent, and securely receive participant data.  Bridge Server <a href="https://github.com/Sage-Bionetworks/BridgePF">source code is available in GitHub</a> - however Sage recommends developers use Sage's hosted services rather than manage their own server instance.
     </li>
     <li>
         <a href="http://developer.sagebridge.org/articles/ios.html">iOS and Research Kit SDKs</a> - Open source libraries for building mobile health apps using Bridge Services and Apple's Research Kit.
