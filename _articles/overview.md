@@ -5,7 +5,7 @@ overview: true
 ---
 
 <div class="ui positive message">
-<p>Bridge Server is part of an open source technology platform maintained by <a href="http://sagebase.org">Sage Bionetworks</a>.  Its purpose is to accelerate the development and deployment of IRB-approved research studies of human health conducted through mobile applications.  This site is intended as a technical resource for app developers.</p>
+<p>Bridge Server is part of an open source technology platform designed to accelerate the development and deployment of IRB-approved research studies of human health conducted through mobile applications.  This site is intended as a technical resource for app developers.</p>
 
 <p>Key components of Sage's platform are:</p>
 
@@ -31,4 +31,9 @@ overview: true
 Together, this platform provides the most complete set of support for the development, execution, and analysis of mobile health studies.
 
 ![Sage Platform](/images/Bridge%20-%20Sage%20Overview.png)
+
+## More info
+For more information about Bridge, or to speak to someone about launching a mobile health study please contact us at [bridge.info@sagebase.org](mailto:bridge.info@sagebase.org).
+
+Bridge is developed and maintained by [Sage Bionetworks](http://sagebase.org/), a not-for profit biomedical research institute.
 
