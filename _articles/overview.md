@@ -1,19 +1,34 @@
 ---
-title: Overview of the Bridge Server
+title: Platform Overview
 layout: article
 overview: true
 ---
 
-Sage Bionetworks’ Bridge Server is designed to securely manage data captured from IRB-approved human health research studies conducted through mobile technology platforms. The server allows study participants to fully manage their individual health data while participating in app-mediated health research studies. It also enables the aggregation, distribution and reuse of participant data for future research in accordance with best practices for data privacy and the protection of human subjects. Sage is architecting Bridge as an online service which may potentially be used by multiple mobile health studies and apps. These studies may or may not have Sage personnel involved in the actual study. Thus, a key aspect of the Bridge architecture is that personal contact information for study participants is stored completely separately and securely from the study data (e.g. height, body weight, blood pressures, heart rates, medications, voice recordings, survey answers).
+<div class="ui positive message">
+<p>Bridge Server is part of an open source technology platform maintained by <a href="http://sagebase.org">Sage Bionetworks</a>.  Its purpose is to accelerate the development and deployment of IRB-approved research studies of human health conducted through mobile applications.  This site is intended as a technical resource for app developers.</p>
 
-![Personal Data Dashboard](/images/bridge_overview1.png)
+<p>Key components of Sage's platform are:</p>
 
-The central organizing construct for Bridge data is a timeline; this organization facilitates the development of a personal dashboard for individuals to track their own disease history. Data for a study is organized into modules, each one targeting different aspects of the symptoms or environmental factors associated with the condition being studies.
+<ul>
+    <li>
+        <a href="http://developer.sagebridge.org/articles/rest.html">Bridge Services</a> - A set of REST-based web services that allow mobile apps to receive study configuration such as surveys and task schedules, manage participant registration and consent, and securely receive participant data.  Bridge Server <a href="https://github.com/Sage-Bionetworks/BridgePF">source code is available in GitHub</a> - however Sage recommends developers use Sage's hosted services rather than manage their own server instance.
+    </li>
+    <li>
+        <a href="http://developer.sagebridge.org/articles/ios.html">iOS and Research Kit SDKs</a> - Open source libraries for building mobile health apps using Bridge Services and Apple's Research Kit.
+    </li>
+	<li>
+		<a href="http://developer.sagebridge.org/articles/android.html">Java and Android SDKs</a> - Open source libraries for building mobile health apps using Bridge Services and the open source Research Stack framework.
+	</li>
+	<li>
+		<a href="https://research.sagebridge.org/">Bridge Study Manager</a> - A web interface to Bridge Services allowing mobile app developers and research teams to manage and monitor their study.
+	</li>
+	<li>
+		<a href="https://synapse.org">Synapse</a> - An open source software platform that data scientists can use to carry out, track, and communicate their research in real time. Synapse has seeded a growing number of large scale biomedical research projects centered around genomic, clinical, imaging, mobile health, and other biomedical data sets.
+	</li>
+</ul>
+</div>
 
-![](/images/bridge_overview2.png)
+Together, this platform provides the most complete set of support for the development, execution, and analysis of mobile health studies.
 
-Researchers analyzing data collected by Bridge will focus on understanding populations for research purposes, rather than providing medical guidance to individuals. A key function of the Bridge server is to facilitate the gathering of consistently structured data from population of participants. Another key goal is that the studies are assumes to be dynamic. Modules may be modified or added as a study progresses and researchers learn more. 
+![Sage Platform](/images/Bridge%20-%20Sage%20Overview.png)
 
-![](/images/bridge_overview3.png)
-
-Ultimately, we should aim to support an ecosystem of apps designed for different studies, in which some modules may be shared among studies to capture data in consistent formats and speed development time.
