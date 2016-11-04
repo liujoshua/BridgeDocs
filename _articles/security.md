@@ -7,20 +7,16 @@ security: true
 Sage has extensive internal policies which govern the deployment of Bridge Services to ensure compliance with legal and ethical obligations governing human health research.  We've undergone security reviews by numerous industry and acadmeic partners, and have our systems and processes regularly audited by external security specialists to ensure compliance with HIPAA and other regulations.
 
 ##Cloud providers used by Bridge Services
-Sage relies on a number of external commercial services to provide the lower level infrastrucutre components for Bridge Server.
+Sage relies on a number of external commercial services to provide the lower level infrastrucutre components for Bridge Server:
 
-The base layer for all Bridge Services is provided by Amazon Web Services (AWS). Amazon is the world-wide leader in cloud computing and provides security measures at the physical and network layers sufficient to comply with strict federal requirements including [the standards of HIPPA](http://aws.amazon.com/compliance/). Coded study data are stored at rest in Bridge using a combination of [Amazon S3](https://aws.amazon.com/s3/) and [DynamoDB](https://aws.amazon.com/dynamodb/).
+* **Amazon Web Services** provides the base layer for all Bridge Services. AWS is the world-wide leader in cloud computing and provides security measures at the physical and network layers sufficient to comply with strict federal requirements including [the standards of HIPPA](http://aws.amazon.com/compliance/). Coded study data are stored at rest in Bridge using a combination of [Amazon S3](https://aws.amazon.com/s3/) and [DynamoDB](https://aws.amazon.com/dynamodb/). A number of asynchronous background processes run on [Amazon EC2](https://aws.amazon.com/ec2/) workers or as [Amazon lambda](https://aws.amazon.com/lambda/) functions.
 
-User account information including Personally Identifying Information is stored separately in [Stormpath](https://stormpath.com/), a cloud-hosted authentication as a service provider.  Using a third-party service specializing in user management and authentication allows us to achieve solid security around users’ personal account data and ensure a clean separation between personal account data and the de-identified study data that can be used for research. Stormpath itself is hosted by Amazon.  
+* **[Stormpath](https://stormpath.com/)**, a cloud-hosted authentication as a service provider, is used to manage user account information including Personally Identifying Information.  Using a third-party service specializing in user management and authentication allows us to achieve solid security around users’ personal account data and ensure a clean separation between personal account data and the de-identified study data that can be used for research. Stormpath is itself hosted by Amazon.  
 
-Our app servers run in [Heroku](https://www.heroku.com/), a platform as a service provider which provides the ability to rapidly adjust server bandwidth to load. No data is stored in Heroku servers, and this tier communicates with the underlying storage layers in AWS and Stormpath, and with client applications via HTTPS.
+* **[Heroku](https://www.heroku.com/)**, is used to host the server runtime and provides the ability to rapidly adjust server bandwidth to load. No data is stored in locally in Heroku servers; this tier communicates with the underlying storage layers in AWS and Stormpath, and with client applications via HTTPS.  Heroku is itself hosted by Amazon.
 
-As a server-side caching layer, we use Redis from [Redis Labs](https://redislabs.com/). Redis Labs is ultimately hosted by AWS. 
+* **[Redis](https://redislabs.com/)** is used as a in-memory cacheing layer by some services.  Redis is itself hosed by Amazon. 
 
-###Transfer of data from Client to Server
-All communication between components in Bridge via standard HTTPS. 
-
-There is one key pair per study for health data encryption.  The key pairs are stored encrypted (256-AES-GCM) in AWS S3, in a bucket dedicated for this purpose.  Access to this bucket is limited by AWS IAM security policies to only the Sage Bridge server technical team.  Key pairs are loaded by the server application at runtime from the S3 buckets.  All server components are in accounts which are isolated from all other work at Sage Bionetworks, and access is limited to the Bridge technical team.  Furthermore, production / staging accounts are separated from development instances, allowing further limitation of access to production data.
 
 ##Storage of Personally-Identifying User Account Data by Bridge Server
 Bridge has been deployed in research studies following two main strategies:
@@ -41,6 +37,24 @@ Study data, defined as survey responses and mobile sensor data, is stored in Bri
 ![Personal Health Data Encryption](/images/anonymization1.png)
 
 Thus, Bridge never links the Stormpath account ID directly to the study data.  When an authenticated user makes a call to create, update, or delete his/her data, the Bridge server retrieves the encrypted account ID from the user profile, decrypts the key, and uses the key to find the user’s health code in the map.  The mapping may exist for a time in memory on the Bridge server, but is never stored in a way accessible to someone who gains access to the back-end systems. This design limits the view of the entire map, ensuring that even Sage Bionetworks engineers with access to back-end systems would find it exceedingly difficult to reidentify patients in this system.
+
+Bridge stores encrypted study data in a combination of AWS DynamoDB and AWS Simple Storage Service (S3). The only unencrypted data stored in either system will be the study participant ID, the study ID, the ID of the data module (defines the data schema), and the time the data was captured, stored in Dynamo for each time point at which data is collected. This allows Bridge to support time-range queries for a user to retrieve his / her own data. This design allows clients to complete personal data histories for participants, even if data is collected from multiple devices / interfaces. Large binary study data such as voice recordings, and bundled uploads will be stored in S3, using Amazon’s server-side encryption. Amazon manages the server-side encryption transparently for us. It currently uses 256-AES-GCM.
+
+![Sequence Diagram](/images/security2.png)
+
+Process for transferring health data from client to Bridge server: 
+
+1. Data is encrypted by the mobile client using Cryptographic Message Syntax (CMS). The CMS public key is generated by Sage using 2048-bit RSA and is supplied to the app developer. Each study is assigned a different public key. Data will be cached on the device for upload to the server pending network availability. 
+
+2. A background process on the client OS calls the service to get a location to upload data to, returned as URL pointing to an AWS S3 bucket dedicated for file upload that is part of the Bridge stack. 
+
+3. Upload of the encrypted data file over S3 is via HTTPS. 
+
+4. A call to Bridge Server informs the server that the upload process is complete. 
+
+5. An asynchronous server process decrypts and validates the file using a private key held only by Sage Bionetworks. 
+
+6. Metadata is written to Dynamo to record the user, study, and time of data collection. Research data is written to a S3 bucket dedicated for each particular study. For more details see our policies around Key Management.
 
 ###Researcher Access to Study Data
 Bridge provides no APIs to allow researchers to query the study data in real time.  Instead, authenticated researchers on the project team can trigger an export of the aggregated study data from all participants in their study in which participants are identified only by their unique study data ID.  This ensures that the researcher cannot link back any particular records to any particular participant.  
