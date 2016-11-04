@@ -1,7 +1,6 @@
 ---
 title: Scheduling
 layout: article
-study_design: true
 ---
 
 <div id="toc"></div>
