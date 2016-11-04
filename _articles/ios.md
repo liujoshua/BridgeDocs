@@ -8,23 +8,22 @@ layout: article
 
 <p>The relevant Github repos are:</p>
 
-<ul>
-    <li>
-        <a href="https://github.com/Sage-Bionetworks/Bridge-iOS-SDK.git">BridgeSDK</a> - a framework to access the Bridge REST API
-    </li>
-    <li>
-        <a href="https://github.com/Sage-Bionetworks/BridgeAppSDK.git">BridgeAppSDK</a> - an extensible, customizable application framework for building mHealth apps using Bridge and ResearchKit
-    </li>
-	<li>
-		<a href="https://github.com/Sage-Bionetworks/CMSSupport.git">CMSSupport</a> - a framework providing support for correctly encrypting files for upload to Bridge
-	</li>
-	<li>
-		<a href="https://github.com/Sage-Bionetworks/AppCore.git">AppCore</a> - (deprecated; use BridgeAppSDK instead) Sage's updated and modified fork of <a href="https://github.com/ResearchKit/AppCore.git">Apple's AppCore framework</a>
-	</li>
-	<li>
-		<a href="https://github.com/Sage-Bionetworks/ResearchKit.git">ResearchKit</a> - Sage's fork of <a href="https://github.com/ResearchKit/ResearchKit.git">Apple's ResearchKit framework</a>
-	</li>
-</ul>
+<dl>
+    <dt><a href="https://github.com/Sage-Bionetworks/Bridge-iOS-SDK.git">BridgeSDK</a></dt>
+    <dd>A framework to access the Bridge REST API</dd>
+
+    <dt><a href="https://github.com/Sage-Bionetworks/BridgeAppSDK.git">BridgeAppSDK</a></dt>
+    <dd>An extensible, customizable application framework for building mHealth apps using Bridge and ResearchKit</dd>
+
+	<dt><a href="https://github.com/Sage-Bionetworks/CMSSupport.git">CMSSupport</a></dt>
+    <dd>A framework providing support for correctly encrypting files for upload to Bridge</dd>
+
+	<dt><a href="https://github.com/Sage-Bionetworks/AppCore.git">AppCore</a></dt>
+    <dd>Deprecated; use BridgeAppSDK instead. Sage's updated and modified fork of <a href="https://github.com/ResearchKit/AppCore.git">Apple's AppCore framework</a></dd>
+	
+    <dt><a href="https://github.com/Sage-Bionetworks/ResearchKit.git">ResearchKit</a></dt>
+    <dd>Sage's fork of <a href="https://github.com/ResearchKit/ResearchKit.git">Apple's ResearchKit framework</a></dd>
+</dl>
 </div>
 
 ## BridgeSDK

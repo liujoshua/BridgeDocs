@@ -2,6 +2,7 @@
 title: Policies and Principles for mHealth Studies
 layout: article
 ---
+
 Conducting a research study in human health comes with serious obligations and responsibilities to safeguard the rights of study participants, which include the rights of participants to privacy.  Developers should be aware that the obligations of designing an appropriate and ethical medical study exceed those of most app development projects.  Bridge is designed to facilitate the development apps that adhere to these principles, but ultimate responsibility rests with the app developers and study’s Principal Investigators. 
 
 ## Formal ethical review is required to launch a mHealth study

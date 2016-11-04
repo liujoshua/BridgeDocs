@@ -7,10 +7,13 @@ layout: article
 
 <p>We currently have a Java-based REST client (v{{site.data.versions.java_sdk}}): </p>
 
-<ul>
-    <li><a class="item" href="/rest-client/{{site.data.versions.java_sdk}}/apidocs/index.html">REST client API docs</a></li>
-    <li><a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a></li>
-</ul>
+<dl>
+    <dt><a class="item" href="/rest-client/{{site.data.versions.java_sdk}}/apidocs/index.html">REST client API docs</a></dt>
+    <dd>JavaDocs for the REST client.</dd>
+    
+    <dt><a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a></dt>
+    <dd>Source code.</dd>
+</dl>
 </div>
 
 ## Installing the REST client (Maven)
@@ -95,7 +98,7 @@ ClientManager manager = new ClientManager
     .withClientConfig(config).build();
 ```
 
-See the [`ClientInfo`](/#ClientInfo) object for further details.
+See the [customizing content](/articles/filtering.html) and the [`ClientInfo`](/#ClientInfo) object for further details.
 
 ## Using the client
 
