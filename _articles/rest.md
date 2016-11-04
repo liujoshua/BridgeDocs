@@ -9,17 +9,16 @@ file</a>, which can be used to generate a simple Bridge REST client in a wide
 variety of languages. See <a href="http://swagger.io/">Swagger</a> for more 
 information.</p>
 
-<ul>
-    <li>
-        <a href="/swagger-ui/index.html" target="_blank">API Browser</a> - 
-            view the URLs of the API
-    </li>
-    <li>
-        <a href="/model-browser.html">Model Browser</a> - 
-            view the payloads (JSON) sent back and forth in the API
-    </li>
-</ul>
+<dl>
+    <dt><a href="/swagger-ui/index.html" target="_blank">API Browser</a></dt>
+    <dd>View the URLs of the API</dd>
+
+    <dt><a href="/model-browser.html">Model Browser</a></dt>
+    <dd>View the payloads (JSON) sent back and forth in the API</dd>
+</dl>
 </div>
+
+<div id="toc"></div>
 
 The Bridge service API can be accessed at [https://webservices.sagebridge.org](https://webservices.sagebridge.org). Sessions are always scoped to a specific study, and any call that creates a session (or operates without one, such as a request to reset a password), will require the study identifier be provided as part of the JSON payload.
 
@@ -54,3 +53,54 @@ Filtering is done on osName + appVersion (other kinds of filtering may be done a
 ## Roles
 
 There are some [roles](/#Role) that you must be assigned on the server in order to use many of the administrative APIs on Bridge.
+
+## Deprecation of services
+
+Service endpoints are versioned independently, e.g. there may be one up-to-date service available at `/v1/**`, while another up-to-date service is available at `/v2/*`. All HTTP verbs will work against that version of the endpoint.
+
+We currently consider "sub-path" endpoints to be separate endpoints. For example `/v1/api/consent` and `/v1/api/consent/email` are considered separate endpoints and versioned separately.
+
+When an endpoint has been deprecated (it is planned for removal at a future date), the responses from that endpoint will include a `Bridge-Api-Status` header with the value of `deprecated`. At a future time, that endpoint may return 410, Gone, and will no longer be functional. Please look for an alternative service in the API, and contact us if necessary to find a suitable service to which to migrate.
+
+## Server Responses and Errors
+
+|HTTP status code|Error type|Message|
+|---|---|---|
+|200||*variable*|
+|201||"&lt;entityTypeName&gt; created."|
+|400|BadRequestException|*variable*|
+|400|PublishedSurveyException|A published survey cannot be updated or deleted (only closed).|
+|400|InvalidEntityException|*variable based on fields that are invalid*|
+|401|NotAuthenticatedException|Not signed in|
+|403|UnauthorizedException|Caller does not have permission to access this service.|
+|404|EntityNotFoundException|&lt;entityTypeName&gt; not found.|
+|409|EntityAlreadyExistsException|&lt;entityTypeName&gt; already exists.|
+|409|ConcurrentModificationException|&lt;entityTypeName&gt; has the wrong version number; it may have been saved in the background.|
+|410|UnsupportedVersionException|"This app version is not supported. Please update." The app has sent a valid User-Agent header and the server has determined that the app's version is out-of-date and no longer supported by the configuration of the study on the server. The user should be prompted to update the application before using it further. Data will not be accepted by the server and schedule, activities, surveys, etc. will not be returned to this app until it sends a later version number.|
+|412|ConsentRequiredException|Consent is required before signing in. This exception is returned with a JSON payload that includes the user's session. The user is considered signed in at this point, but unable to use any service endpoint that requires consent to participate in the study.|
+|423|BridgeServerException|"Account disabled, please contact user support"|
+|500|BridgeServerException|*variable*|
+|503|ServiceUnavailableException|*variable|
+
+If a response returns no JSON payload, it will normally return a message, and this includes error responses:
+
+```json
+{"message":"Not signed in."}
+```
+
+These messages are not localized. They are somewhat suitable for display to users, but mostly present as an aid to API developers.
+
+Invalid entities return more complex errors with an "errors" property that breaks down the issues by field (the field key can be a nested set of properties into the object structure). For example, an invalid survey:
+
+```json
+{   
+   "message":"Survey is invalid: element1.identifier is required",
+   "errors":{   
+      "element1.identifier":[   
+         "element1.identifier is required"
+      ]
+   }
+}
+```
+
+The first element of the survey is missing an identifier (which is required).

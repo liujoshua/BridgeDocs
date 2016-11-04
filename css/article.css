@@ -53,14 +53,15 @@ p, li {
     line-height: 1.8;
     font-size: 16px;
 }
-    th, td {
+    th, td, dt, dd {
         font-size: 16px;
     }
     .ui.positive.message ul {
         margin-left: 1.5rem;
         padding-left: 0;
     }
-    .ui.positive.message p, .ui.positive.message li {
+    .ui.positive.message p, .ui.positive.message li, 
+    .ui.positive.message dt, .ui.positive.message dd {
         color: rgb(44, 102, 45)!important;
         opacity: 1!important;
         line-height: 1.4!important;
