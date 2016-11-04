@@ -1,5 +1,6 @@
 ---
-title: Sample apps
+title: Android Sample App
 layout: article
 ---
+
 Coming soon

@@ -52,6 +52,9 @@ i.heartbeat-logo {
     .hero-buttons {
         margin: 3rem auto 2rem;
     }
+    .hero-buttons a {
+        min-width: 10rem;
+    }
     .hero-buttons a:not(:last-child) {
         margin-right: 1rem;
         margin-bottom: 1rem;

@@ -1,5 +1,5 @@
 ---
-title: Sample Apps
+title: iOS Sample App
 layout: article
 ---
 
