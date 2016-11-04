@@ -5,7 +5,7 @@ layout: article
 
 <div class="ui positive message">
 
-<p>We currently have a Java-based REST client (v{{site.data.versions.java_sdk}}): </p>
+<p>Sage provides a Java-based REST client for interacting with Bridge services (v{{site.data.versions.java_sdk}}): </p>
 
 <dl>
     <dt><a class="item" href="/rest-client/{{site.data.versions.java_sdk}}/apidocs/index.html">REST client API docs</a></dt>
@@ -14,6 +14,8 @@ layout: article
     <dt><a class="item" href="https://github.com/Sage-Bionetworks/BridgeJavaSDK">GitHub</a></dt>
     <dd>Source code.</dd>
 </dl>
+
+<p>Clients in other languages can be produced using the <a href="/articles/rest.html">swagger specification</a> of the services.</p>
 </div>
 
 ## Installing the REST client (Maven)
@@ -38,6 +40,8 @@ Add the Sage Bionetworks repository and the REST client to your <code>pom.xml</c
 </repositories>
 ```
 
+## Using the REST client
+
 If you don't have an account to start, you can create one (if you do not have a study, you will have to contact Sage Bionetworks to create one):
 
 ``` java
@@ -57,17 +61,26 @@ SignIn signIn = new SignIn()
     .study("my-study-id")
     .email("email@email.com")
     .password("password");
-UserSessionInfo session = authApi.signIn(signIn).execute().body();
+
+UserSessionInfo session = null;
+try {
+    session = authApi.signIn(signIn).execute().body();
+} catch(ConsentRequiredException e) {
+    // user still has session, but must consent to continue.
+    String sessionToken = e.getSession().getSessionToken();
+}
+
 ```
 
-## Configuration
+The available [Api clients](/rest-client/{{site.data.versions.java_sdk}}/apidocs/org/sagebionetworks/bridge/rest/api/package-summary.html) are documented in the javadocs for the REST client. You can create them using the `ClientManager` (as shown above).
 
-If you use the `ClientManager` class to manage access to the server, you should create a `bridge-sdk.properties` file in your user home directory (`~/bridge-sdk.properites` on Mac OSX and Linux):
+The `ClientManager` class provides the means to configure your clients using a `bridge-sdk.properties` file in your user home directory (`~/bridge-sdk.properites` on Mac OSX and Linux):
 
 ``` java
 study.identifier = yourStudyIdentifier
 account.email = email@address.com
 account.password = yourPassword
+languages = en
 ```
 
 Now you can use the credentials without embedding them in your program:
@@ -83,7 +96,7 @@ ScheduledActivityList scheduledActivities = usersApi
     .getScheduledActivities("+00:00", 4, 0).execute().body();
 ```
 
-The server can tailor behavior for your app based on its version. But you must send this information to the server in the `User-Agent` header of requests. This is represented by the `ClientInfo` class, which can be provided to the `ClientManager`: 
+The server can tailor behavior for your app based on its version or the declared language of the user. But you must send this information to the server in the `User-Agent` header of requests. This is represented by the `ClientInfo` class, which can be provided to the `ClientManager`: 
 
 ``` java
 ClientInfo info = new ClientInfo();
@@ -93,17 +106,17 @@ info.setDeviceName("Google Plexus");
 info.setOsName("Android"); // or "iPhone OS"
 info.setOsVersion("10.0.2");
 
+List<String> languages = new ArrayList<>();
+languages.add("en");
+languages.add("fr");
+
 ClientManager manager = new ClientManager
     .withClientInfo(info)
+    .withAcceptLanguage(languages)
     .withClientConfig(config).build();
 ```
 
-See the [customizing content](/articles/filtering.html) and the [`ClientInfo`](/#ClientInfo) object for further details.
-
-## Using the client
-
-The available Api clients are documented in the javadocs for the REST client. You can create them 
-using the `ClientManager` (as shown above).
+See [customizing content](/articles/filtering.html) and the [`ClientInfo`](/#ClientInfo) object for further details.
 
 Finally you may wish to sign out when you are done:
 
