@@ -34,22 +34,6 @@ Timestamps are expressed in ISO 8601 format (e.g. 2011-12-03T22:11:34.554Z), usi
 
 In the JSON objects described here, the server will always include a "type" property with a unique type value for that kind of object. However, these type properties never need to be submitted back to the server, as the server can deduce the JSON object's type from the API endpoint. Example JSON messages in the documentation show this type property, and including it in your JSON back to the server is harmless.
 
-## User Agent Header
-
-The Bridge server allows study designers to filter resources by the version of the application making a request (schedules and scheduled activities can currently be filtered this way). In order for this to work, you must submit a User-Agent header in a specific format:
-
-|Format Variants|Example|
-|---|---|
-|appName/appVersion|Share The Journey/22|
-|appName/appVersion sdkName/sdkVersion|Asthma/14 BridgeJavaSDK/10|
-|appName/appVersion (deviceName; osName/osVersion) sdkName/sdkVersion|Cardio Health/1 (Unknown iPhone; iPhone OS/9.0.2) BridgeSDK/4|
-
-If the header is not in one of these prescribed formats, it will be ignored and all server resources will be returned. Note that it is possible to come up with partial combinations of these strings that confuse our parsing; be sure your UA string is in one of these formats.
-
-The [Java REST client](/articles/java.html) provides APIs to set this header. 
-
-Filtering is done on osName + appVersion (other kinds of filtering may be done at a later date).
-
 ## Roles
 
 There are some [roles](/#Role) that you must be assigned on the server in order to use many of the administrative APIs on Bridge.

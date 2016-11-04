@@ -15,7 +15,7 @@ if (container) {
         
         var up = document.createElement("a");
         up.textContent = "[back to contents]";
-        up.href = "#toc"
+        up.href = "#";
         up.style.fontSize = "small";
         up.style.marginLeft = "3rem";
         header.appendChild(up);

@@ -3,7 +3,21 @@ title: Support for the app development lifecycle
 layout: article
 ---
 
-After your first release, you will want to test changes while maintaining your production configuration. **The key to doing this is to use application version filtering to restrict new consents and schedules to the next version release of your application.** Consent groups/subpopulations allow you to restrict the application of the consent to your next application release. And schedules include a type of schedule, the criteria-based schedule plan, that can also be used to restrict new tasks to your next application release. This will prevent current users from seeing tasks, surveys, and new consent requirements until that version of the application is released to production. 
+<div id="toc"></div>
+
+After your first release, you will want to test changes while maintaining your production configuration. The Bridge server provides support through the process of developing and releasing software changes.
+
+## Developing and testing 
+
+**By setting application versions on server objects, you restrict new content to the next released version of your application.** 
+
+The two key model objects that can be filtered are consent groups (subpopulations) and schedules. By setting the minimum app version for your platform (iOS or Android) to a level above the released version of your application, your developers and testers can see the new content, while participants will not.
+
+For consent groups, the application version is set on the consent group itself (in the research manager, for either "iPhone OS" or for "Android").
+
+For scheduling, a criteria-type schedule can tie each schedule in a list of schedules to a specific application version range. The first schedule that applies will be used to schedule a user, allowing you to deliver one schedule to production users and a different schedule to testers.
+
+Through schedules, you can refer to different tasks or surveys to perform. 
 
 Similarly, you can make changes to existing schemas that are backwards compatible with any schema revision you are already using in production (data will not be sent to a different Synapse table, though columns may be added in that table and some columns may no longer be populated with data):
 
@@ -14,9 +28,13 @@ Similarly, you can make changes to existing schemas that are backwards compatibl
 |Remove schema field (required or not)|Set the max app version for this field to the current release version of your application. The next release will not see the field (and should not send that data).|
 |Change the name of a field|This is like a remove and then an add. You may need to set a max version on the old field, and create a new field with a min app version, in order to avoid creating a new revision of the schema.|
 
-Finally, a new version of your app is released to the app store with a higher version number. As users download the app and requests start to include that version number, new app versions (and only new app versions) will see your changes during this transitional period.
+## Release to production 
 
-## End-of-life for older versions of your app
+When you are ready, you release a new version of your app to the app store with a higher version number. As users download the app and requests start to include that version number, new app versions (and only new app versions) will see your changes during this transitional period.
+
+The same process works for hiding content on a release: by setting the maximum version of an app that receives a consent group or schedule, and setting that value to the version that is currently in production, when you release a new app version, these objects will no longer be returned to users. 
+
+## End-of-life for older app versions
 
 It is not possible to force users to update their applications, so it is wise to leave older configuration for older app versions if at all possible. Over time, with subsequent revisions of operating systems and phone hardware, some users may even find they cannot update to newer versions of your app until they update their phone hardware.
 
