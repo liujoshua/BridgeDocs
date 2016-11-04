@@ -1,7 +1,6 @@
 ---
 title: Tailoring Content to Participants
 layout: article
-study_design: true
 ---
 
 All fields in the criteria object are optional. If not provided, any value supplied by a participant is assumed to match. For example, if allOfGroups is an empty array, the participant can be assigned any data groups and they will match when using these criteria to select server objects. If no application versions are specified for the operating system given in the request User-Agent string, the object is returned. And so forth.
