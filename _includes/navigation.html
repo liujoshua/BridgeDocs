@@ -1,46 +1,34 @@
-{% include security-nav.html %}
-{% include study-design-nav.html %}
 {% include model-browser-nav.html %}
-{% unless page.security == true or page.study_design == true %}
-    <div class="item">
-        <div class="header">Bridge Studies</div>
-        <div class="menu">
-            <a class="item" href="/articles/overview.html">
-                Overview
-            </a>
-            <a class="item" data-filepath="/articles/security" href="/articles/security.html">
-                Security
-            </a>
-            <a class="item" data-filepath="/articles/study_design" href="/articles/study_design/study_design.html">
-                Study Design
-            </a>
-        </div>
+<div class="item">
+    <div class="header">Platform Overview</div>
+    <div class="menu">
+        <a class="item" href="/articles/overview.html">Introduction</a>
+        <a class="item" href="/articles/security.html">Security</a>
+        <a class="item" href="/articles/data_management.html">Policies &amp; Principles</a>
+        <a class="item" href="/articles/study_design/study_design.html">Study Design</a>
+        <a class="item" href="/articles/analysis.html">Data Retrieval &amp; Analysis</a>
     </div>
-{% endunless %}
+</div>
 <div class="item">
     <div class="header">REST API</div>
     <div class="menu">
         <a class="item" href="/articles/rest.html">Getting Started</a>
         <a class="item" href="/articles/errors.html">Server Responses &amp; Errors</a>
-        <a class="item" href="/articles/service_deprecation.html">Deprecation of services</a>
+        <a class="item" href="/articles/service_deprecation.html">Deprecation of services</a>   
+    </div>
+</div>
+<div class="item">
+    <div class="header">iPhone Development</div>
+    <div class="menu">
+        <a class="item" href="/articles/ios.html">iOS &amp; ResearchKit SDKs</a>
+        <a class="item" href="/articles/ios_samples.html">Sample Apps</a>
+    </div>
+</div>
+<div class="item">
+    <div class="header">Android Development</div>
+    <div class="menu"> 
         <a class="item" href="/articles/java.html">Java REST Client</a>
-    </div>
-</div>
-<div class="item">
-    <div class="header">iOS &amp; ResearchKit SDKs</div>
-    <div class="menu">
-        <a class="item" href="/articles/ios.html">Getting Started</a>
-    </div>
-</div>
-<div class="item">
-    <div class="header">Android SDK</div>
-    <div class="menu">
-        <a class="item" href="/articles/android.html">Getting Started</a>
-    </div>
-</div>
-<div class="item">
-    <div class="header">Data Retrieval &amp; Analysis</div>
-    <div class="menu">
-        <a class="item" href="/articles/analysis.html">Getting Started</a>
+        <a class="item" href="/articles/android.html">Android SDKs</a>
+        <a class="item" href="/articles/android_samples.html">Sample Apps</a>
     </div>
 </div>
