@@ -1,5 +1,5 @@
 ---
-title: Tailoring Content to Participants
+title: Customizing Content for Participants
 layout: article
 ---
 
