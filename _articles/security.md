@@ -1,7 +1,6 @@
 ---
 title: Security Overview
 layout: article
-security: true
 ---
 ##Overview
 Sage has extensive internal policies which govern the deployment of Bridge Services to ensure compliance with legal and ethical obligations governing human health research.  We've undergone security reviews by numerous industry and acadmeic partners, and have our systems and processes regularly audited by external security specialists to ensure compliance with HIPAA and other regulations.
