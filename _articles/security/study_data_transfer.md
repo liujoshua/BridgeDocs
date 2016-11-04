@@ -4,7 +4,7 @@ layout: article
 security: true
 ---
 
-Bridge will store encrypted study data in a combination of AWS DynamoDB and AWS Simple Storage Service (S3). The only unencrypted data stored in either system will be the study participant ID, the study ID, the ID of the data module (defines the data schema), and the time the data was captured, stored in Dynamo for each time point at which data is collected. This allows Bridge to support time-range queries for a user to retrieve his / her own data. This will allow clients to build complete histories for customers, even if data is collected from multiple devices / interfaces. Large binary study data such as voice recordings, and bundled uploads will be stored in S3, using Amazon’s server-side encryption. Amazon manages the server-side encryption transparently for us. It currently uses 256-AES-GCM.
+Bridge stores encrypted study data in a combination of AWS DynamoDB and AWS Simple Storage Service (S3). The only unencrypted data stored in either system will be the study participant ID, the study ID, the ID of the data module (defines the data schema), and the time the data was captured, stored in Dynamo for each time point at which data is collected. This allows Bridge to support time-range queries for a user to retrieve his / her own data. This design allows clients to complete personal data histories for participants, even if data is collected from multiple devices / interfaces. Large binary study data such as voice recordings, and bundled uploads will be stored in S3, using Amazon’s server-side encryption. Amazon manages the server-side encryption transparently for us. It currently uses 256-AES-GCM.
 
 ![Sequence Diagram](/images/security2.png)
 
