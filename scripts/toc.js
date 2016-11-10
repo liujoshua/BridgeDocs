@@ -1,6 +1,6 @@
 var container = document.querySelector("#toc");
 if (container) {
-    container.className = "ui segment";
+    //container.className = "ui segment";
     var headers = document.querySelectorAll("h2, h3, h4, h5, h6");
     for (var i=0; i < headers.length; i++) {
         var header = headers[i];
@@ -14,10 +14,10 @@ if (container) {
         container.appendChild(a);
         
         var up = document.createElement("a");
-        up.textContent = "[back to contents]";
+        up.textContent = "[back to top]";
         up.href = "#";
+        up.style.float = "right";
         up.style.fontSize = "small";
-        up.style.marginLeft = "3rem";
         header.appendChild(up);
 
         header.id = "n" + i;

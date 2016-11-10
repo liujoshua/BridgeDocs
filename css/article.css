@@ -31,6 +31,10 @@ h2 {
 h3, h4, h5, h6 {
     font-size: 1.5rem;
 }
+body {
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;    
+}
 main img {
     padding: 1rem;
     max-width: 100%;
@@ -129,7 +133,24 @@ dl.properties dt {
     dl.properties table {
         margin-bottom: 1rem!important;
     }
-
+@media (max-width: 768px) {
+    header {
+        margin-bottom: 0!important;
+    }
+    .ui.stackable.vertical.menu .menu {
+        padding: 0 1rem;
+        margin-top: 0;
+    }
+    .ui.stackable.vertical.menu .menu a {
+        display: inline!important;
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+    }
+    .ui.stackable.vertical.menu .menu a:not(:last-child):after {
+        content: ' - ';
+    }
+}
 @media print {
     nav, header {
         display:none;
