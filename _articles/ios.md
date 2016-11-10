@@ -86,37 +86,37 @@ BridgeSDK is organized into 'managers' that correspond roughly to the Bridge RES
 Objective-C:
 
 ```objc
-        [SBBComponent(SBBAuthManager) signUpWithEmail:email
-                                             username:email
-                                             password:password
-                                           dataGroups:dataGroups
-                                           completion:^(NSURLSessionTask * __unused task,
-                                                         id __unused responseObject,
-                                                         NSError *error)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 if (!error) {
-                     // handle successful sign-up, e.g. ask the user to click the link in the verification email before proceeding to sign them in with these credentials
-                 } else {
-					 // handle failed sign-up
-				 }
-             });
-         }];
+[SBBComponent(SBBAuthManager) signUpWithEmail:email
+                                        username:email
+                                        password:password
+                                    dataGroups:dataGroups
+                                    completion:^(NSURLSessionTask * __unused task,
+                                                    id __unused responseObject,
+                                                    NSError *error)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                // handle successful sign-up, e.g. ask the user to click the link in the verification email before proceeding to sign them in with these credentials
+            } else {
+                // handle failed sign-up
+            }
+        });
+    }];
 ```
 
 Swift:
 
 ```swift
-        let authManager = SBBComponentManager.component(SBBAuthManager.self) as! SBBAuthManagerProtocol
-        authManager.signUp(withEmail: email, username: email, password: password) { (_, responseObject, error) in
-            DispatchQueue.main.async {
-                guard error == nil else {
-                    // handle failed sign-up
-                    return
-                }
-                // handle successful sign-up, e.g. ask the user to click the link in the verification email before proceeding to sign them in with these credentials
-            }
+let authManager = SBBComponentManager.component(SBBAuthManager.self) as! SBBAuthManagerProtocol
+authManager.signUp(withEmail: email, username: email, password: password) { (_, responseObject, error) in
+    DispatchQueue.main.async {
+        guard error == nil else {
+            // handle failed sign-up
+            return
         }
+        // handle successful sign-up, e.g. ask the user to click the link in the verification email before proceeding to sign them in with these credentials
+    }
+}
 ```
 
 See the BridgeSDK documentation for more details, and the BridgeAppSDK framework and sample app source code for working examples.
