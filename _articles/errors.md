@@ -7,6 +7,7 @@ layout: article
 |---|---|---|
 |200||*variable*|
 |201||"&lt;entityTypeName&gt; created."|
+|202|*variable*|Request was accepted for processing, but result is not be returned in the response (so a failure at a later time is still possible).|
 |400|BadRequestException|*variable*|
 |400|PublishedSurveyException|A published survey cannot be updated or deleted (only closed).|
 |400|InvalidEntityException|*variable based on fields that are invalid*|

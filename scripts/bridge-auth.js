@@ -9,6 +9,7 @@ function getSessionToken(form) {
             alert("All values are required to sign into the Bridge server.");
             return;
         }
+        alert(JSON.stringify(body));
         $.ajax({
             type: 'POST',
             url: "https://webservices.sagebridge.org/v3/auth/signIn",
