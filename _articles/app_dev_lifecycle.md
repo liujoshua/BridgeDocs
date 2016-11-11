@@ -32,7 +32,7 @@ Similarly, you can make changes to existing schemas that are backwards compatibl
 
 When you are ready, you release a new version of your app to the app store with a higher version number. As users download the app and requests start to include that version number, new app versions (and only new app versions) will see your changes during this transitional period.
 
-The same process works for hiding content on a release: by setting the maximum version of an app that receives a consent group or schedule, and setting that value to the version that is currently in production, when you release a new app version, these objects will no longer be returned to users. 
+The same process works for hiding content on a release: by setting the minimum app version for a consent group or schedule, when you release a new app version, these objects will no longer be returned to users. 
 
 ## End-of-life for older app versions
 
