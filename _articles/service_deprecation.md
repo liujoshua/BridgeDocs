@@ -3,7 +3,7 @@ title: Deprecation of services
 layout: article
 ---
 
-Service endpoints are versioned independently, e.g. there may be one up-to-date service available at `/v1/**`, while another up-to-date service is available at `/v2/*`. All HTTP verbs will work against that version of the endpoint.
+Service endpoints are versioned independently, e.g. there may be one up-to-date service available at `/v1/*`, while another up-to-date service is available at `/v2/*`. All HTTP verbs will work against that version of the endpoint.
 
 We currently consider "sub-path" endpoints to be separate endpoints. For example `/v1/api/consent` and `/v1/api/consent/email` are considered separate endpoints and versioned separately.
 
