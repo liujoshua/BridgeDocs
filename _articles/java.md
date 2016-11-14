@@ -50,7 +50,7 @@ SignUp signUp = new SignUp()
     .email("email@email.com")
     .password("password");
 
-ClientManager manager = new ClientManager.build();
+ClientManager manager = new ClientManager.Builder().build();
 AuthenticationApi authApi = manager.getClient(AuthenticationApi.class);
 authApi.signUp(signUp).execute();
 
@@ -88,7 +88,7 @@ Now you can use the credentials without embedding them in your program:
 ``` java
 // The first time you connect to the server, we will sign you in.
 Config config = new Config();
-ClientManager manager = new ClientManager.withConfig(config).build();
+ClientManager manager = new ClientManager.Builder().withConfig(config).build();
 
 // Will sign you in any time you do not have a session.
 ForConsentedUsersApi usersApi = manager.getClient(ForConsentedUsersApi.class);
@@ -110,7 +110,7 @@ List<String> languages = new ArrayList<>();
 languages.add("en");
 languages.add("fr");
 
-ClientManager manager = new ClientManager
+ClientManager manager = new ClientManager.Builder()
     .withClientInfo(info)
     .withAcceptLanguage(languages)
     .withClientConfig(config).build();
