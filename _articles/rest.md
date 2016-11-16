@@ -36,7 +36,7 @@ If the version of the app making a request has a lower app version than the vers
 
 Timestamps are expressed in ISO 8601 format (e.g. 2011-12-03T22:11:34.554Z), using the extended notation, to represent dates, dates and times, or times (separate from a specific day or time zone).
 
-JSON objects returned from the Bridge server will contain a `type` property with a unique type string for that kind fo object. This may aid deserialization. However, these type properties do not need to be submitted back to the server (the Bridge server can deduce the JSON object's type from the API endpoint). Example JSON messages in the documentation show this type property, and including it in your JSON back to the server is harmless.
+JSON objects returned from the Bridge server will contain a `type` property with a unique type string for that kind of object. This may aid deserialization. However, these type properties do not need to be submitted back to the server (the Bridge server can deduce the JSON object's type from the API endpoint). Example JSON messages in the documentation show this type property, and including it in your JSON back to the server is harmless.
 
 ## Roles
 
@@ -44,7 +44,7 @@ Many endpoints will return a 403 error (Unauthorized) unless the caller is in on
 
 ## Deprecation of services
 
-Service endpoints are versioned independently, e.g. there may be one up-to-date service available at `/v1/**`, while another up-to-date service is available at `/v2/*`. All HTTP verbs will work against that version of the endpoint.
+Service endpoints are versioned independently, e.g. there may be one up-to-date service available at `/v1/*`, while another up-to-date service is available at `/v2/*`. All HTTP verbs will work against that version of the endpoint.
 
 We currently consider "sub-path" endpoints to be separate endpoints. For example `/v1/api/consent` and `/v1/api/consent/email` are considered separate endpoints and versioned separately.
 
