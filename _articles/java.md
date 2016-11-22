@@ -83,20 +83,20 @@ account.password = yourPassword
 languages = en
 ```
 
-Now you can use the credentials without embedding them in your program:
+This allows you to use credentials without embedding them in your program:
 
 ``` java
-// The first time you connect to the server, we will sign you in.
 Config config = new Config();
 ClientManager manager = new ClientManager.Builder().withConfig(config).build();
 
-// Will sign you in any time you do not have a session.
 ForConsentedUsersApi usersApi = manager.getClient(ForConsentedUsersApi.class);
 ScheduledActivityList scheduledActivities = usersApi
     .getScheduledActivities("+00:00", 4, 0).execute().body();
 ```
 
-The server can tailor behavior for your app based on its version or the declared language of the user. But you must send this information to the server in the `User-Agent` header of requests. This is represented by the `ClientInfo` class, which can be provided to the `ClientManager`: 
+## Filtering server content
+
+The server can tailor behavior for your app based on criteria such as the app's version or the declared language of the user. For this to work, you must send a `User-Agent` header with your requests, in a specific format understood by Bridge. The rest client represents the user agent through the `ClientInfo` class, which can be provided to the `ClientManager`: 
 
 ``` java
 ClientInfo info = new ClientInfo();

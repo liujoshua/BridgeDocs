@@ -58,13 +58,26 @@ i.heartbeat-logo {
         margin: 0 .7rem 1rem .7rem !important;        
     }
         .android-button {
-            background-color: rgb(106, 179, 68)!important;
+            background-color: rgba(106, 179, 68,.85)!important;
             color: white!important;
         }
-        .rest-button {
-            background-color: rebeccapurple!important;
+            .android-button:hover {
+                background-color: rgba(106, 179, 68,1)!important;
+            }
+        .ios-button {
+            background-color: rgba(22,120,194,.85)!important;
             color: white!important;
-        }    
+        }
+            .ios-button:hover {
+                background-color: rgba(22,120,194,1)!important;
+            }
+        .rest-button {
+            background-color: rgba(102, 51, 153,.85)!important;
+            color: white!important;
+        }
+            .rest-button:hover {
+                background-color: rgba(102, 51, 153,1)!important;
+            }
 section.hero {
     font-size: 1.3rem;
     padding: 1rem 2rem 4rem 2rem;
