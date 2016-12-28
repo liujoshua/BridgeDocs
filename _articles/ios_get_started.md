@@ -155,9 +155,9 @@ For detailed usage, see code file `SBABridgeInfo.swift`
 |cacheDaysAhead|NO|YES|The number of days ahead to cache of upcoming scheduled activities|
 |cacheDaysBehind|NO|YES|The number of days behind to cache of completed and expired scheduled activities|
 |emailForLoginViaExternalId|YES|YES|The "Support email" shown in "Settings -> Email"|
-|newsfeedURL|YES|NO|The url for a blogspot newsfeed (WIP)|
+|newsfeedURL|YES|YES|The url for a blogspot newsfeed (WIP)|
 |logoImageName|NO|YES|The `imageName` for the app logo|
-|appUpdateURL|YES|NO|URL for updating the app|
+|appUpdateURL|YES|YES|URL for updating the app|
 |keychainService|YES|YES|Keychain-protected properties will be stored in the keychain service with the given name|
 |keychainAccessGroup|YES|YES|Keychain-protected properties will be stored with this access group|
 |permissionTypes|NO|YES|Array of permission types. The included values are used by the `SBAPermissionObjectTypeFactory` to create `SBAPermissionObjectType` model objects for each required permission.|
