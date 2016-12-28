@@ -81,7 +81,7 @@ update the submodules that it references.
 git submodule add https://github.com/syoung-smallwisdom/BridgeAppSDK.git BridgeAppSDK
 cd BridgeAppSDK/
 git submodule update --init --recursive
-cd..
+cd ..
 ````
 
 ## Bridge Setup
