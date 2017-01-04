@@ -81,7 +81,7 @@ update the submodules that it references.
 git submodule add https://github.com/syoung-smallwisdom/BridgeAppSDK.git BridgeAppSDK
 cd BridgeAppSDK/
 git submodule update --init --recursive
-cd..
+cd ..
 ````
 
 ## Bridge Setup
@@ -155,9 +155,9 @@ For detailed usage, see code file `SBABridgeInfo.swift`
 |cacheDaysAhead|NO|YES|The number of days ahead to cache of upcoming scheduled activities|
 |cacheDaysBehind|NO|YES|The number of days behind to cache of completed and expired scheduled activities|
 |emailForLoginViaExternalId|YES|YES|The "Support email" shown in "Settings -> Email"|
-|newsfeedURL|YES|NO|The url for a blogspot newsfeed (WIP)|
+|newsfeedURL|YES|YES|The url for a blogspot newsfeed (WIP)|
 |logoImageName|NO|YES|The `imageName` for the app logo|
-|appUpdateURL|YES|NO|URL for updating the app|
+|appUpdateURL|YES|YES|URL for updating the app|
 |keychainService|YES|YES|Keychain-protected properties will be stored in the keychain service with the given name|
 |keychainAccessGroup|YES|YES|Keychain-protected properties will be stored with this access group|
 |permissionTypes|NO|YES|Array of permission types. The included values are used by the `SBAPermissionObjectTypeFactory` to create `SBAPermissionObjectType` model objects for each required permission.|
@@ -210,7 +210,40 @@ The sample app includes a `Main` storyboard that has tabs showing what is curren
 To get started with showing activities, you will want to include `ActivityTableViewController.swift` and it's 
 associated view controller in the storyboard.
 
-## Task and Schedule Setup
+## Bridge Survey Setup
+
+The [Sage Researcher UI](https://research.sagebridge.org "Researcher UI") currently supports several basic survey question types. To create and schedule a standard survey, you will need to do the following.
+
+### 1. Open the [Sage Researcher UI](https://research.sagebridge.org "Researcher UI")
+
+#### a. Create the Survey
+
+Navigate to the "Surveys" menu item using the left menu in the Researcher UI. Tap the "New Survey" button 
+in the upper right corner. Give your survey a name and identifier and then add at least one question. 
+Because there is no auto-save of a survey that you are currently editing, you should tap the "Save" button 
+to save your progress after each step that you add to the survey.
+
+````
+Note: If the last step is an "Information Only" instruction step, then the default
+behavior defined in the SBASurveyFactory is to use a copyright link for the text
+entered as the prompt detail.
+````
+
+#### b. Save and Publish
+
+Tap the "Save" button to ensure that your progress has been saved. Then navigate to the "History & Publication" tab and tap the "Publish" button. Without this step, your survey will not be displayed in the scheduling interface. For a long survey, you should publish the survey intermittently so as to have a record of your changes.
+
+#### c. Add a `Schedule`
+
+Navigate to the "Scheduling" menu item. Tap the "New Schedule Plan" button in the upper right. Assign a label for
+the schedule, and include one or more activities. In this case, you will need to set "Take Survey" drop-down 
+with the survey you have just published. Remember to then tap the "Save" button to save your schedule.
+
+### 2. Within your App
+
+Using only the standard survey question types provided via the Bridge UI, no further actions are required. However, if you do wish to customize the Bridge surveys, you will need to subclass `SBAScheduledActivityManager` and override the methods as required. If you wish to replace a step with a custom step, you will need to subclass `SBASurveyFactory` and override the `createFactory()` method. If you wish to replace a step view controller with a custom class you will need to implement the `taskViewController(viewControllerFor:)` method.
+
+## ResearchKit Task Setup
 
 The simpliest way to get started with using `ResearchKit` defined task modules in your application is to 
 ask the Bridge team to copy the appropriate `Data Schema` into your Bridge research project. This guide will 
@@ -240,12 +273,12 @@ To include this task within an application that uses BridgeAppSDK, you will need
 
 #### a. Add a `Task Identifier`
 
-Navigate to the "Task Identifiers" tab using the left menu of the Bridge Study Manager UI. Enter "Memory Activity" 
+Navigate to the "Task Identifiers" menu item using the left menu of the Bridge Study Manager UI. Enter "Memory Activity" 
 and tap the "Add" button. Then save by tapping the "Save" button.
 
 #### b. Add a `Data Schema`
 
-Navigate to the "Data Schema" tab using the left menu. Tap on the "New Schema" button. Enter "Memory Activity" as
+Navigate to the "Data Schema" menu item using the left menu. Tap on the "New Schema" button. Enter "Memory Activity" as
 both the `Name` and `Identifier` for the task schema. Then add the fields that map to the results for this schema. 
 Be sure to tap the "Save" button to save your schema before navigating away from this tab.
 
@@ -271,7 +304,7 @@ by default to any `SBAActivityArchive`.
 
 #### c. Add a `Schedule`
 
-Navigate to the "Scheduling" tab. Tap the "New Schedule Plan" button in the upper right. Assign a label for
+Navigate to the "Scheduling" menu item. Tap the "New Schedule Plan" button in the upper right. Assign a label for
 the schedule, and include one or more activities. In this case, you will need to set "Do Task" with the selected
 task as "Memory Activity". Remember to then tap the "Save" button to save your schedule. 
 
