@@ -24,7 +24,7 @@ then save your changes to github because these projects are read-only *examples*
 ### 2. Add Capabilities
 
 You will need to add Capabilities for Keychain Sharing as well as certain background modes. Most projects
-that use Bridge are setup with the following:
+that use Bridge are set up with the following:
 
 * Keychain Sharing - The login information is saved to the keychain. Applications that use app extensions
 will need to setup the same keychain service and access group for all applications that use the shared login.
@@ -173,7 +173,7 @@ the json and html files used to show onboarding and consent. This includes:
 * \BridgeAppSDKSample\Resources\JSON\Consent.json
 * \BridgeAppSDKSample\Resources\JSON\Onboarding.json
 
-However, to just get started, you might find it simplier to do the following:
+However, to just get started, you might find it simpler to do the following:
 
 ````
 //
@@ -245,7 +245,7 @@ Using only the standard survey question types provided via the Bridge UI, no fur
 
 ## ResearchKit Task Setup
 
-The simpliest way to get started with using `ResearchKit` defined task modules in your application is to 
+The simplest way to get started with using `ResearchKit` defined task modules in your application is to 
 ask the Bridge team to copy the appropriate `Data Schema` into your Bridge research project. This guide will 
 use the memory task as an example.
 
@@ -318,7 +318,7 @@ Add a `Dictionary` to the `taskMapping` Array with the following fields:
 |taskIdentifier|String|Memory Activity|
 |taskType|String|memory|
 
-The `taskType` field maps to values defined by the `SBAActiveTaskType` enum. Alertnatively, you can use a 
+The `taskType` field maps to values defined by the `SBAActiveTaskType` enum. Alternatively, you can use a 
 `resourceName` key to point to a json resource file or *only* include the `taskIdentifier` which maps to 
 the `Task Identifier` that you previously defined through the Researcher UI. If you do not include a 
 resource or task type, then you must override 

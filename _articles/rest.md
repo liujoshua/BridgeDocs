@@ -47,7 +47,7 @@ Study developers and researchers can access most of the study management functio
 
 ## Application versioning
 
-If the version of the your making a request has a lower app version than the version supported by your study, services will return 410 (Service Gone) to indicate the application is obsolete and must be updated. This minimum required application version can be set separately for Android and iOS applications. 
+If the version of the app making a request has a lower app version than the version supported by your study, services will return 410 (Service Gone) to indicate the application is obsolete and must be updated. This minimum required application version can be set separately for Android and iOS applications. 
 
 ## Deprecation and service warnings
 

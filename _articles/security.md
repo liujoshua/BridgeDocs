@@ -5,10 +5,10 @@ layout: article
 
 <div id="toc"></div>
 
-Sage has extensive internal policies which govern the deployment of Bridge Services to ensure compliance with legal and ethical obligations governing human health research.  We've undergone security reviews by numerous industry and acadmeic partners, and have our systems and processes regularly audited by external security specialists to ensure compliance with HIPAA and other regulations.
+Sage has extensive internal policies which govern the deployment of Bridge Services to ensure compliance with legal and ethical obligations governing human health research.  We've undergone security reviews by numerous industry and academic partners, and have our systems and processes regularly audited by external security specialists to ensure compliance with HIPAA and other regulations.
 
 ##Cloud providers used by Bridge Services
-Sage relies on a number of external commercial services to provide the lower level infrastrucutre components for Bridge Server:
+Sage relies on a number of external commercial services to provide the lower level infrastructure components for Bridge Server:
 
 * **Amazon Web Services** provides the base layer for all Bridge Services. AWS is the world-wide leader in cloud computing and provides security measures at the physical and network layers sufficient to comply with strict federal requirements including [the standards of HIPPA](http://aws.amazon.com/compliance/). Coded study data are stored at rest in Bridge using a combination of [Amazon S3](https://aws.amazon.com/s3/) and [DynamoDB](https://aws.amazon.com/dynamodb/). A number of asynchronous background processes run on [Amazon EC2](https://aws.amazon.com/ec2/) workers or as [Amazon lambda](https://aws.amazon.com/lambda/) functions.
 
@@ -16,7 +16,7 @@ Sage relies on a number of external commercial services to provide the lower lev
 
 * **[Heroku](https://www.heroku.com/)**, is used to host the server runtime and provides the ability to rapidly adjust server bandwidth to load. No data is stored in locally in Heroku servers; this tier communicates with the underlying storage layers in AWS and Stormpath, and with client applications via HTTPS.  Heroku is itself hosted by Amazon.
 
-* **[Redis](https://redislabs.com/)** is used as a in-memory cacheing layer by some services.  Redis is itself hosed by Amazon. 
+* **[Redis](https://redislabs.com/)** is used as a in-memory caching layer by some services.  Redis is itself hosed by Amazon. 
 
 
 ##Storage of Personally-Identifying User Account Data by Bridge Server
@@ -24,7 +24,7 @@ Bridge has been deployed in research studies following two main strategies:
 
 1. **Study participants self-enroll in the study electronically.**  This strategy is used when studies allow participants across the country to self-enroll in the study electronically, as in many of the public Research Kit studies.  In this case, the app provides  minimal identifying information such as first name, last name, username, Date of Birth, and email address to the server.  This information is sufficient to create an electronic record of consent to participate in a mobile study. Bridge also provides tools to the research team to facilitate recontact of study participants when permitted by the study protocol.  This strategy has the broadest possible enrollment, and allows for study designs in which participants never physically interact with the study team.
 
-2. **Consent and registration is managed by a 3rd party, and participants use Bridge Server anomously**  This strategy is often used when the study app is a complement to a traditional clinical study, in which participants are enrolled in person during a clinic visit.  In this case, a 3rd party research team may maintain all personally-identifying information about a study participant.  Either Sage, or the research team may assign anonymous identifiers which are used to identify participants by Bridge Server.  In this case no PII is stored in Bridge server, at the cost of prohibiting auto-enrollment in the study through a publicly-available app.  
+2. **Consent and registration is managed by a 3rd party, and participants use Bridge Server anonymously**  This strategy is often used when the study app is a complement to a traditional clinical study, in which participants are enrolled in person during a clinic visit.  In this case, a 3rd party research team may maintain all personally-identifying information about a study participant.  Either Sage, or the research team may assign anonymous identifiers which are used to identify participants by Bridge Server.  In this case no PII is stored in Bridge server, at the cost of prohibiting auto-enrollment in the study through a publicly-available app.  
 
 In either strategy, Bridge stores account information in a back-end database distinct from the one that stores the study data.  Currently, the Bridge server uses a commercial authentication system provided by Stormpath to store and manage such user account data.   This way, in the rare event that either database is compromised, the connection between a person and her/his health data will remain protected. Most account data is stored as encrypted key value pairs in Stormpath, and the Bridge server encrypts / decrypts user data as it is stored / retrieved from Stormpath, using a key generated and controlled by Sage Bionetworks. The exception to this is user email which is managed securely by Stormpath, but not separately encrypted by the Bridge server.  This allows Stormpath to take on some aspects of user account management such as email validation and password resets.
 
