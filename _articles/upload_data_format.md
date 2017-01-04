@@ -171,7 +171,7 @@ Valid field types include:
 |BOOLEAN|true or false|
 |CALENDAR_DATE|String in YYYY-MM-DD format.|
 |FLOAT|floating point number, including floats, doubles, and decimals.|
-|INLINE\_JSON\_BLOB|JSON blob that's small enough to fit inside the health data. Generally something that's less than a hundred characters. This is used for things like small lists: [ "apples", "banananas", "cranberries" ].|
+|INLINE\_JSON\_BLOB|JSON blob that's small enough to fit inside the health data. Generally something that's less than a hundred characters. This is used for things like small lists: [ "apples", "bananas", "cranberries" ].|
 |INT|integers, including longs and big integers.|
 |STRING|any non-empty string. NOTE: Strings can't exceed 100 characters in length, or they won't fit into Synapse tables. If this is freeform text from the user, make sure this is limited to 100 characters, or specify the schema as ATTACHMENT_BLOB.|
 |TIMESTAMP|timestamps, can either be a string in ISO 8601 format or a long that's milliseconds since the beginning of the epoch (1970-01-01).|

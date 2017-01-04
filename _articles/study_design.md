@@ -48,7 +48,7 @@ In setting up the server for your study, you will:
 
 * Create schedule plans that include schedules for published surveys and task identifiers, filtered on the criteria described above, as needed;
 
-Consents and surveys can be edited multiple times, and then a revision can be published when you have a final product. Surveys can have multiple published versions, but it is most commen to return the most recently published revision to users (the exact revision is recorded in the uploaded responses). 
+Consents and surveys can be edited multiple times, and then a revision can be published when you have a final product. Surveys can have multiple published versions, but it is most common to return the most recently published revision to users (the exact revision is recorded in the uploaded responses). 
 
 Schemas are not published, but you always reference a specific revision of a schema in your application (it is "baked in" to your application code), so this is not necessary.
 
