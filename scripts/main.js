@@ -13,6 +13,8 @@ for (var i=0; i < items.length; i++) {
     }
     if (document.location.pathname.indexOf(href) > -1) {
         item.classList.add("active");
+        $(item).closest('.content').addClass('active').prev('.title').addClass('active');
+        $("#acc").css({opacity: 1});
     }
 }
 var items = document.body.querySelectorAll("table");

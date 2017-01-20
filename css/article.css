@@ -87,14 +87,30 @@ table td, table th {
         outline: 1px solid #e5e5e5;
     }
 
-/* Model browser */
-#model_nav {
-    max-height: 20rem;
-    margin-bottom: -1rem;
-    overflow-y: scroll;
-    border-top: 1px solid #e5e5e5;
-    margin-top: .75rem;
+/* Navigation */
+#acc {
+    opacity: 0;
+    /*transition: .6s;*/
 }
+.accordion .ui.secondary.vertical.menu .item {
+    padding: .5rem 1rem;
+}
+.ui.styled.accordion .accordion .content, .ui.styled.accordion .content {
+    padding: .5em 1em .5em;
+}
+
+/* Model browser */
+.model_nav_container {
+    border: none!important;
+    max-height: 20rem;
+    overflow-y: scroll;
+}
+    .model_nav_container .item {
+        border: none!important;
+    }
+    #model_nav {
+        border-top: 1px solid #e5e5e5;
+    }
 .subclass a:not(:last-child)::after {
     content: ", ";
 }
