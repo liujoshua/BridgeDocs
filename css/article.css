@@ -154,17 +154,13 @@ dl.properties dt {
     header {
         margin-bottom: 0!important;
     }
-    .ui.stackable.vertical.menu .menu {
-        padding: 0 1rem;
-        margin-top: 0;
-    }
-    .ui.stackable.vertical.menu .menu a {
+    #acc a {
         display: inline!important;
         margin: 0;
         padding: 0;
-        line-height: 1.5;
+        line-height: 1.75;
     }
-    .ui.stackable.vertical.menu .menu a:not(:last-child):after {
+    #acc a:not(:last-child):after {
         content: ' - ';
     }
 }
@@ -175,5 +171,13 @@ dl.properties dt {
     .table-wrapper, pre {
         max-width: none;
         outline: none;        
+    }
+    .two.column.grid {
+        display: block;
+    }
+    .five.wide.column {
+        display: none;
+    }
+    .eleven.wide.column {
     }
 }
