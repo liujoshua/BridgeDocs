@@ -7,9 +7,7 @@
     <div class="article ui stackable two column grid">
         <div class="five wide column">
             <nav>
-                <div class="ui stackable vertical menu">
-                    {% include navigation.html %}
-                </div>
+                {% include navigation.html %}
             </nav>
         </div>
         <div class="eleven wide column">
@@ -20,5 +18,8 @@
         </div>
     </div>
     {% include footer.html %}
+    <script>
+        $('#acc').accordion();
+    </script>
 </body>
 </html>
