@@ -11,7 +11,7 @@ function getSessionToken(form) {
         }
         $.ajax({
             type: 'POST',
-            url: "http://localhost:9000/v3/auth/signIn",
+            url: "https://webservices.sagebridge.org/v3/auth/signIn",
             data: JSON.stringify(body),
             contentType: "application/json",
             headers: { 'Content-Type': 'application/json' },
