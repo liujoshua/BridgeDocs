@@ -1,6 +1,6 @@
 ---
 title: REST API Model Browser
-layout: article
+layout: default
 model_browser: true
 ---
 
@@ -20,3 +20,4 @@ model_browser: true
 <script src="scripts/marked.js"></script>
 <script src="scripts/handlebars-v4.0.5.js"></script>
 <script src="scripts/model-browser.js"></script>
+
