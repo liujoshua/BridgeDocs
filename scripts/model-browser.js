@@ -271,9 +271,16 @@ function relabelPropType(definitions, def, property) {
         var ap = property.additionalProperties;
         if (ap) {
             if (ap.type) {
-                if (ap.type === "array") {
+                if (ap.type === "array" && ap.items.type) {
                     var label = getTypeLabel(ap.items.type);
                     property.type = "Map<String,"+label+"[]>";
+                } else if (ap.type === "array" && ap.items.$ref) {
+                    var refType = getDefinition(definitions, ap.items.$ref);
+                    addUse(refType, def);
+                    property.type = {
+                        title: "Map<String,"+refType.title+"[]>",
+                        link: refType.link
+                    };
                 } else {
                     var label = getTypeLabel(ap.type);
                     property.type = "Map<String,"+label+">";

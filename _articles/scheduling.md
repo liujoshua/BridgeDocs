@@ -5,7 +5,7 @@ layout: article
 
 <div id="toc"></div>
 
-A [Schedule](/#Schedule) describes when a user will be asked by the Brider server to perform activities. A scheduled activity describes an activity (task or survey) and a start and end time when the user should be prompted to perform that activity. A client application may use this information to inform the user about their ongoing participation in the study (e.g. to show that a task is coming up in 2 hours, or that it is currently in progress).
+A [Schedule](/#Schedule) describes when a user will be asked by the Bridge server to perform activities. A scheduled activity describes an activity (task or survey) and a start and end time when the user should be prompted to perform that activity. A client application may use this information to inform the user about their ongoing participation in the study (e.g. to show that a task is coming up in 2 hours, or that it is currently in progress).
 
 Tasks that have expired, or that have been updated with a `finishedOn` timestamp, are not returned by the server. The API allows you to retrieve the next few days of activities for a user, but this is adjustable (see the [scheduled activities API](/swagger-ui/index.html#!/Activities/getScheduledActivities)).
 
@@ -19,7 +19,7 @@ The simplest schedule generates an activity to be done one time, after an event 
 
 ### Cron Schedules
 
-A cron expression is a configuration string that describes times on a calendar, and allows for schedules such as "Mondays and Fridays at 8am" or "The first Thursday of every month at noon." The format of the cron expression is the seven field format as described in the [Java Quartz Scheduler](http://www.quartz-scheduler.org/documentation/quartz-1.x/tutorials/crontrigger) documentation (note that there are other formats that take up to eleven fields, this [online cron expression generator](http://www.cronmaker.com/) creates expressions in the right format). Although cron-based schedules are not super-useful for scheduling study tasks, if you need this kind of schedule, cron expressions are a tested and successful way of describing them.
+A cron expression is a configuration string that describes times on a calendar, and allows for schedules such as "Mondays and Fridays at 8am" or "The first Thursday of every month at noon." The format of the cron expression is the seven field format as described in the [Java Quartz Scheduler](http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html) documentation (note that there are other formats that take up to eleven fields, this [online cron expression generator](http://www.cronmaker.com/) creates expressions in the right format). Although cron-based schedules are not super-useful for scheduling study tasks, if you need this kind of schedule, cron expressions are a tested and successful way of describing them.
 
 For example, "Ask for this survey on Monday, Wednesday and Friday starting at 6am, and remove the request from the interface 6 hours later", would look like:
 
@@ -73,7 +73,7 @@ When scheduling a task, the scheduler does the following:
 * The scheduler continues this way until one of two states are met. Either it creates tasks up to the time calculated from the request's `daysAhead` parameter, or it calculates the `minimumPerSchedule` activities for every schedule plan in the study, taking whichever value is 
 larger for each schedule plan);
 
-_You must set an expiration duration on repeating tasks._ Otherwise unfinished activities would stack up on each other durig periods of inactivity, and the user would be presented with all of these activities at once.
+_You must set an expiration duration on repeating tasks._ Otherwise unfinished activities would stack up on each other during periods of inactivity, and the user would be presented with all of these activities at once.
 
 ### Examples
 
@@ -277,7 +277,7 @@ _You must set an expiration duration on repeating tasks._ Otherwise unfinished a
 
 When you create a schedule plan for users, you take one or more schedules and combine them with strategies for how to assign activities to participants using the schedules.
 
-For example, you can divide study participants in to a control and test group, and use different schedules to give them tasks with different frequencies.
+For example, you can divide study participants into a control and test group, and use different schedules to give them tasks with different frequencies.
 
 Bridge has three strategies at the current time for creating schedule plans:
 
