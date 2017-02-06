@@ -90,13 +90,15 @@ table td, table th {
 /* Navigation */
 #acc {
     opacity: 0;
-    /*transition: .6s;*/
 }
 .accordion .ui.secondary.vertical.menu .item {
     padding: .5rem 1rem;
 }
 .ui.styled.accordion .accordion .content, .ui.styled.accordion .content {
     padding: .5em 1em .5em;
+}
+#acc .title:first-child {
+    outline: 1px solid #e5e5e5;
 }
 
 /* Model browser */
