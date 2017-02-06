@@ -38,9 +38,11 @@ Sub-types are needed to deserialize JSON correctly. The super type defines a `di
 Constraints:
     type: object
     discriminator: type
+    required:
+        - type
     properties:
-            type:
-                type: string
+        type:
+            type: string
 # The concrete sub-type
 BooleanConstraints:
     allOf:
