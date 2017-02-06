@@ -80,4 +80,4 @@ Then this should do it:
 
     java -jar swagger-codegen-cli.jar generate -i _site/swagger.json -l java --library retrofit2 -o java/
 
-The resulting swagger.json file will be copied periodically to `BridgeJavaSdk/rest-client/swagger.json` in order to update our REST API client.
+The resulting swagger.json file will be copied to `BridgeJavaSdk/rest-client/swagger.json` in order to update our REST API client.

@@ -1,6 +1,6 @@
 ---
 title: REST API Model Browser
-layout: article
+layout: default
 model_browser: true
 ---
 
