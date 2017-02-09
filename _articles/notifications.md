@@ -19,7 +19,7 @@ After a user consents to receive push notifications via the mobile operating sys
 
 Your app should [send this device identifier](/swagger-ui/index.html#!/_For_Consented_Users/createNotificationRegistration) to Bridge in order to register for notifications. Bridge returns a registration GUID which you can use to [update the device identifier at a later time](/swagger-ui/index.html#!/_For_Consented_Users/updateNotificationRegistration), as well as to subscribe to notification topics (see below).
 
-It is possible to [retrieve a list of device registrations for a participant](/swagger-ui/index.html#!/_For_Consented_Users/getNotificationRegistrations) (if the participant installs your app on multiple devices. there may be more than one).
+It is possible to [retrieve a list of device registrations for a participant](/swagger-ui/index.html#!/_For_Consented_Users/getNotificationRegistrations) (if the participant installs your app on multiple devices. there will be more than one).
 
 Some notification services, like APNS, suggest that this device identifier can change over the lifetime of your app's installation. Follow the advice of your push notification provider. Bridge allows the registration to be updated at any time.
 

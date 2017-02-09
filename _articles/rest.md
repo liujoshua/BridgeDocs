@@ -72,9 +72,11 @@ If there is a warning of any of these issues, the response from that endpoint wi
 |400|InvalidEntityException|*variable based on fields that are invalid*|
 |401|NotAuthenticatedException|Not signed in|
 |403|UnauthorizedException|Caller does not have permission to access this service.|
+|404|EndpointNotFoundException|The URL used to make a request does not exist on the server.|
 |404|EntityNotFoundException|&lt;entityTypeName&gt; not found.|
 |409|EntityAlreadyExistsException|&lt;entityTypeName&gt; already exists.|
 |409|ConcurrentModificationException|&lt;entityTypeName&gt; has the wrong version number; it may have been saved in the background.|
+|409|ConstraintViolationException|A constraining relationship between two entities has prevented the operation (usually a deletion).|
 |410|UnsupportedVersionException|"This app version is not supported. Please update." The app has sent a valid User-Agent header and the server has determined that the app's version is out-of-date and no longer supported by the configuration of the study on the server. The user should be prompted to update the application before using it further. Data will not be accepted by the server and schedule, activities, surveys, etc. will not be returned to this app until it sends a later version number.|
 |412|ConsentRequiredException|Consent is required before continuing. This exception is returned with a JSON payload that includes the user's session. The user is considered signed in at this point, but unable to use any service endpoint that requires consent to participate in the study.|
 |423|BridgeServerException|"Account disabled, please contact user support"|
