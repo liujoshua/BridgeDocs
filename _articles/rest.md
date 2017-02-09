@@ -72,7 +72,7 @@ If there is a warning of any of these issues, the response from that endpoint wi
 |400|InvalidEntityException|*variable based on fields that are invalid*|
 |401|NotAuthenticatedException|Not signed in|
 |403|UnauthorizedException|Caller does not have permission to access this service.|
-|404|EndpointNotFoundException|The URL used to make a request does not exist on the server.|
+|404|EndpointNotFoundException|The request URL is invalid, and does not reach an endpoint on the server.|
 |404|EntityNotFoundException|&lt;entityTypeName&gt; not found.|
 |409|EntityAlreadyExistsException|&lt;entityTypeName&gt; already exists.|
 |409|ConcurrentModificationException|&lt;entityTypeName&gt; has the wrong version number; it may have been saved in the background.|
