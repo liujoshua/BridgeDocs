@@ -12,7 +12,14 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/synapseUserId
+        - name: body
+          required: true
+          in: body
+          schema:
+            type: array
+            description: A list of synapse user IDs to add as admins of the created project and access team
+            items:
+                type: string
     responses:
         201:
             $ref: ../../responses/201_message.yml
