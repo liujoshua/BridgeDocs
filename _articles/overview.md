@@ -38,7 +38,7 @@ Data flows in a Bridge-supported mHealth study as shown above.
 
 3. Bridge stores participant PII in the account database, and generates a unique, random health code for each participant. The account management service automatically generates a unique random identifier, or health code, that will be associated with participant study data, and maintains an encrypted mapping between participant account and participant study data. Thus, researchers analyzing the coded study data will not know the identity of the participants.
 
-4. As the participant completes activities in the app, data is uploaded to Bridge server, mapped to the participant’s health code, and cached by Bridge Server.  
+4. As the participant completes activities in the app, data is uploaded to Bridge Server, mapped to the participant’s health code, and cached by Bridge Server.  
 
 5. Coded study data is periodically exported to Synapse, typically this is done on a nightly basis. 
 
