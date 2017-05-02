@@ -30,7 +30,7 @@ Participants in a Sage-supported mHealth study interact with an app installed on
 
 ![Sage Platform](/images/BridgeDataFlow.png)
 
-Data flows in a Bridge-supported mHealth as shown above.  
+Data flows in a Bridge-supported mHealth study as shown above.  
 
 1. Participants interact with an app on their smartphone.  
 
