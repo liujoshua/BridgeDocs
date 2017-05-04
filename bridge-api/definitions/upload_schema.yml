@@ -25,6 +25,12 @@ properties:
             version number, in order to match.
         additionalProperties:
             type: integer
+    moduleId:
+        type: string
+        description: Module ID, if this schema was imported from a shared module.
+    moduleVersion:
+        type: integer
+        description: Module version, if this schema was imported from a shared module.
     name:
         type: string
         description: User-friendly schema name.
@@ -67,6 +73,11 @@ properties:
         type: array
         items:
             $ref: ./upload_field_definition.yml
+    published:
+        type: boolean
+        description: |
+            Flag indicating if this upload schema is published or not. If it is published, no one can update it. 
+            To modify a published upload schema, user needs to copy this schema to a new one and then modify it.
     type:
         type: string
         readOnly: true
