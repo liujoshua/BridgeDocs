@@ -1,4 +1,9 @@
 var root = document.body.querySelector("script#bridge-shared-modules");
+var ldg = document.createElement('div');
+ldg.setAttribute('data-bridge-sm',true);
+ldg.className="loading";
+ldg.textContent = "Loading modules...";
+root.parentNode.insertBefore(ldg, root);
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -31,6 +36,7 @@ function displayItems(items) {
         div.appendChild(body);
         root.parentNode.insertBefore(div, root);
     });
+    root.parentNode.removeChild(ldg);
 }
 var url = 'https://webservices.sagebridge.org/v3/sharedmodules/metadata?mostrecent=true&published=true&cb=' + new Date().getTime();
 var request = createCORSRequest('GET', url);
