@@ -32,7 +32,7 @@ function displayItems(items) {
         root.parentNode.insertBefore(div, root);
     });
 }
-var url = 'https://webservices.sagebridge.org/v3/sharedmodules/metadata?mostrecent=true&published=true';
+var url = 'https://webservices.sagebridge.org/v3/sharedmodules/metadata?mostrecent=true&published=true&cb=' + new Date().getTime();
 var request = createCORSRequest('GET', url);
 if (request) {
     request.setRequestHeader('Content-Type', 'application/json');
@@ -41,6 +41,7 @@ if (request) {
         if(request.readyState === 4 && request.status === 200) {
             // TODO: sort entries, then possibly reverse it given insertion order
             var object = JSON.parse(request.responseText);
+            object.items.sort(function(a,b){return a.name.localeCompare(b.name);});
             displayItems(object.items);
         }
     };
