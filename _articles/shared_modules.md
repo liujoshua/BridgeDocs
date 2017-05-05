@@ -8,6 +8,11 @@ layout: article
     padding: 1rem;
     margin-bottom: 2rem;
 }
+[data-bridge-sm].loading {
+    border-left: none;
+    padding-left:0;
+    font-size: x-large;
+}
 </style>
 
 These are some of the shared modules (common surveys and upload formats) that are currently available to all projects in the Bridge Server. You can also define your own surveys and upload formats. 
