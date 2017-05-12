@@ -79,19 +79,21 @@ Consents and surveys can be edited multiple times, and then a revision can be pu
 
 Schemas are not currently published _(however, they will be shortly)._
 
+Only published resources can be included in a participant's activities. Schedules can also be created that use whatver is the most recently published version of a resource.
+
 Schedules, email templates, and all other configuration settings are not versioned; they are immediately reflected in your study. **That includes filtering criteria itself.**
 
 ### Consents
 
 Bridge Server can be configured to require and collect consent to research, before it will allow a user to access its services.
 
-For public studies, at least one consent should be required. You do not have an opportunity to interact with users before they sign up and participate in a study.
+For public studies, at least one consent should be required. You do not have an opportunity to interact with users before they sign up and participate in a study, so this is your only means of acquiring consent.
 
-For clinical studies, a required consent is optional. Most customers disable consent in these situations, and consent participants face-to-face, but it can be done through the Bridge Server if you wish.
+For clinical studies, a required consent is optional. Most customers disable consent in these situations, and consent participants in face-to-face meetings, but it can still be recorded through the Bridge Server if you wish.
 
 ### Upload Schemas
 
-Upload schemas describe how to export data in JSON format, from your app to a Synapse table. With the correct schema, you can upload your data in a way that makes it easier to search and process within Synapse, our data repository platform. See [Upload Data Format](upload_data_format.html) for details.
+Upload schemas describe how to export data in JSON format, from your app to a Synapse table. With the correct schema, you can upload your data in a way that makes it easier to search and process data within Synapse, our data repository platform. See [Upload Data Format](upload_data_format.html) for details.
 
 ### Schedules
 
